@@ -1,0 +1,69 @@
+/* --- O R C A M E N T O --- */
+.section-orcamento8 {
+  margin-bottom: 1rem;
+  .icon { width: 2rem; height: 1.7rem;}
+  .section-orcamento4 .radio-azul span { text-align: initial; }
+  /* .etapa-nums { display: flex; justify-content: center;
+  .radio-azul span { margin: 0 10px; }
+  .logo { width: 10rem; }
+    li {
+      &:nth-child(-n+8) { background-color: #3f439c;
+      &:before { background-color: #3f439c; }
+      }
+    }
+  } */
+}
+
+/* --- F O R M  C O N F I G --- */
+.section-orcamento8 {
+  .incluir-item { background: $c-e-white; border-radius: 1rem; padding: 1rem;  margin-bottom: 7rem; }
+  .busca { display: flex; align-items: center; justify-content: center; }
+  .cad-title { padding-right: 1rem; }
+  .diferenciado { display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: center;
+    img { max-height: 80px; }
+  }
+  .opcao { padding-bottom: 1rem; padding-top: 1rem;
+    &:not(:last-child) { border-bottom: 1px solid $c-p-cc; } }
+  .texto-produto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: black;
+    justify-content: center;
+    margin-left: 1rem;
+    span {
+      font-weight: 800;
+    }
+
+    input { width: 4rem; text-align: center; height: 2rem; } }
+  .lblMedida {
+      font-weight: bold;
+      font-size: 12px;
+      margin-top: 0.4rem;
+  }
+  
+}
+
+/* --- C O N D I Ç Õ E S  --- */
+.section-orcamento8 {
+  .quantidade { display: none; align-items: center; margin: 3px;
+    &.-is-active { display: flex; }
+    h5 { margin-bottom: 0; text-transform: capitalize; font-weight: 100;} }
+}
+
+/* --- B O T Õ E S  C O N F I G --- */
+.section-orcamento8 {
+  .botoes-form {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    padding: 1rem;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: -1px 1px 10px 0px black;
+  }
+}

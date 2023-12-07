@@ -1,0 +1,61 @@
+/* --- O R C A M E N T O --- */
+.section-orcamento5 {
+  margin-bottom: 1rem;
+  .icon { width: 2rem; height: 1.7rem;
+    @media #{$device-g-md} { height: 2.7rem; } }
+  .cad-title { text-align: center;  margin-bottom: 2rem; }
+  .section-orcamento4 .radio-azul span { text-align: initial; }
+  /* .etapa-nums { display: flex; justify-content: center;
+  .radio-azul span { margin: 0 10px; }
+  .logo { width: 10rem; }
+    li {
+      &:nth-child(-n+5) { background-color: #3f439c;
+      &:before { background-color: #3f439c; }
+      }
+    }
+  } */
+}
+
+/* --- F O R M  C O N F I G --- */
+.section-orcamento5 {
+  .tipo-acionamento { background: $c-e-white; border-radius: 1rem; padding: 1rem; }
+  .texto {
+    display: flex;
+    padding: 0 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    align-items: center;
+    a { color: $c-e-white;
+      &:hover { color: $c-e-white; }
+      @media #{$device-g-md} { font-size: 1.5rem; }
+    }
+  }
+  .opcao { padding-bottom: 2rem; padding-top: 2rem; display: flex; justify-content: center;
+    img { width: 70%; }
+    &:not(:last-child) { border-bottom: 1px solid $c-p-cc; }
+  }
+}
+
+/* --- B O T Õ E S  C O N F I G --- */
+.section-orcamento5 {
+  //.botoes-form { display: flex; justify-content: space-around; margin-top: 2rem; width: 100%; }
+  .botoes-form {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    padding: 1rem;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: -1px 1px 10px 0px black;
+  }
+  .radios { display: flex; flex-direction: row; justify-content: space-around; width: 100%; }
+  .radio-azul span { color: black; text-transform: uppercase;  text-align: center;}
+}
+
+/* --- C O N D I Ç Õ E S  --- */
+.section-orcamento5 {
+  .botoes-form { display: none; &.-is-active { display: flex; }}
+}

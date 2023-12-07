@@ -1,0 +1,8 @@
+<ion-item>
+  <ion-select cancelText="Cancelar" [formControl]="select" (ionChange)="onSelectChange()">
+    <ion-select-option [value]="''">{{ placeholder }}</ion-select-option>
+    <ion-select-option *ngFor="let customer of customersList" [value]="customer.id">
+      {{ customer.tipo === 'f' ? customer.nome + ' ' + customer.sobrenome : customer.sobrenome }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>

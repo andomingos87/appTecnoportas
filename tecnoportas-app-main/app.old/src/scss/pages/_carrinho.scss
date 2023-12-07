@@ -1,0 +1,220 @@
+.logo { display: flex; justify-content: center;
+  .icon {  height: 6rem; width: 5rem; color: $c-p; display: flex; }
+}
+
+.btns-ctr {
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
+  button {
+    width: 100%;
+    height: 45px;
+    color: white;
+    font-weight: 300;
+  }
+}
+
+.wrapper-produtos  {
+  color: $c-p;
+  margin-bottom: 2rem;
+  .box-search {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.23);
+    padding-bottom: 1.5rem;
+  }
+  .box-form {
+    margin-bottom: 0;
+  }
+  .box-categoria {
+    margin-bottom: 0;
+  }
+  .titulo-page {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.23);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .list-table {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+    text-align: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.23);
+    //height: 3rem;
+    min-height: 60px;
+    .item { font-weight: 900; }
+    &:nth-child(even) {
+      background-color: rgba(0,0,0,.05);
+    }
+    .icon {
+      display: inline-block;
+      width: 1.8rem;
+      height: 1.7rem;
+      padding: 0.4rem;
+      background: $c-s-negative;
+      border-radius: 3rem;
+      margin-bottom: 0px;
+      margin-left: 1rem;  
+    }
+  }
+
+  #Prod{
+    h3{
+      text-align: center;
+    }
+    #listaProds{
+      font-size: 12px;
+      .nome{
+        padding: 0 4px;
+      }
+    }
+  }
+
+}
+
+.list-options {
+  flex-direction: column;
+}
+.option > .icon {
+  color: #000;
+  &.deletar {
+    color: $c-s-negative;
+  }
+}
+.botoes-form{
+  bottom: -2.25rem;
+  padding: 0 .5rem;
+  margin-bottom: 0;
+}
+.nav-finalizar{
+  width: 100%;
+  padding: 1rem 0 2.7rem;
+  border-top: 1px solid $c-p-cc;
+  color: $c-e-black;
+  border-bottom: 1px solid $c-p-cc;
+  padding-bottom: $s-md-lg;
+  ul{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    .item{
+      border: 1px solid $c-p-cc;
+      border-radius: 50% 50%;
+      width: 3rem;
+      height: 3rem;
+      background-color: $c-e-white;
+      position: relative;
+      >.icon{
+        color: $c-p-bg;
+        width: 100%;
+        padding: 0.6rem;
+        height: 3rem;
+      }
+      > span {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        line-height: 1;
+        font-size: 80%;
+      }
+    }
+  }
+}
+
+.modal{
+
+  .opcao {     
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  }
+
+  .list-options {
+  width: 100%;
+  .option {
+    border-top: 0.3px solid rgba(53,53,53,0.5);
+    height: 4rem;
+  }
+  }
+
+  .section-orcamento9 .option>.icon {
+  color: #575757;
+  }
+
+  .modal>.list-options>.option>.icon {
+  width: 2rem;
+  height: 2rem;
+  }
+
+  .deletar {
+  color: $c-s-negative;
+  }
+
+  .opcao-trocaItem {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  .nome {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #444444;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+    text-align: center;
+  }
+  }
+  .box-search {
+  display: none;
+  margin-bottom: 1rem;
+  .icon {
+    background: $c-p-bt;
+    border-radius: 0 1rem 1rem 0;
+  }
+  .input-default {
+    border-radius: 1rem 0 0 1rem;
+  }
+  &.-is-active {
+    display: flex;
+  }
+  }
+
+  .list-trocaItem, .list-trocaMargem {
+  .option {
+    border-top: 0.3px solid rgba(53, 53, 53, 0.5);;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+  }
+
+  .list-excluir {
+  .option {
+    border-top: 0.3px solid rgba(53, 53, 53, 0.5);;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    width: 100%;
+    text-align: center;
+    color: $c-s-negative;
+    &:not(:first-child) {
+      color: black;
+    }
+  }
+  }
+
+  .voltar {
+  > .icon {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.1rem;
+  }
+  }
+
+  .list-options .option >.nome {
+    @media #{$device-g-xs} {
+      font-size: 0.7rem;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Atendimento</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <div class="form-container">
+    <form>
+      <ion-list>
+        <ion-list-header>
+          <ion-note>Nos mande uma mensagem que responderemos o mais rápido possível:</ion-note>
+        </ion-list-header>
+        <ion-item>
+          <ion-label position="floating">Nome Completo *</ion-label>
+          <ion-input type="text" [formControl]="form.name" [required]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">E-mail *</ion-label>
+          <ion-input type="email" [formControl]="form.email" [required]="true"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Mensagem *</ion-label>
+          <ion-textarea [formControl]="form.message" rows="5" [autoGrow]="true"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <div class="buttons-container">
+            <ion-button type="button" shape="round" color="tertiary" routerLink="/home">
+              <ion-icon slot="start" name="arrow-back"></ion-icon>
+              <span>
+                <ion-label>Voltar</ion-label>
+              </span>
+            </ion-button>
+            <ion-button type="button" shape="round" color="success" (click)="onSubmitClick()"
+              [disabled]="!formIsValid()">
+              <span>
+                <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+                <ion-label *ngIf="!saving">Enviar</ion-label>
+              </span>
+              <ion-icon slot="end" name="arrow-forward"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+
+</ion-content>

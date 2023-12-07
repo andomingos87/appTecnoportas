@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Acesse sua conta</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="logo-container">
+    <ion-img src="/assets/img/logo.png"></ion-img>
+  </div>
+
+  <div class="form-container">
+    <form>
+      <ion-item class="rounded-input">
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-input [formControl]="form.username" type="email" placeholder="Usuário"></ion-input>
+      </ion-item>
+      <br />
+      <ion-item class="rounded-input">
+        <ion-icon name="key" slot="start"></ion-icon>
+        <ion-input [formControl]="form.password" type="password" placeholder="Senha"></ion-input>
+      </ion-item>
+      <br />
+      <ion-button type="button" shape="round" color="tertiary" (click)="onSubmitClick()"
+        [disabled]="loading || (form.username.invalid && form.password.invalid)">
+        <span *ngIf="!loading">
+          <ion-label>Entrar</ion-label>
+        </span>
+        <ion-spinner *ngIf="loading" name="circular" color="medium"></ion-spinner>
+      </ion-button>
+      <br/>
+      <br/>
+      <ion-button type="button" shape="round" fill="clear" routerLink="/password-recovery">
+        <span>
+          <ion-label color="warning">Esqueci minha senha</ion-label>
+        </span>
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,58 @@
+<div class="list-container">
+  <ion-list>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label>Modelo *</ion-label>
+      </ion-list-header>
+      <ion-item *ngIf="loading">
+        <div class="text-center w-100p">
+          <ion-spinner name="circular" color="medium"></ion-spinner>
+        </div>
+      </ion-item>
+      <ion-radio-group [formControl]="quoteForm.doorType">
+        <ion-item *ngFor="let item of quoteItems.doorTypes">
+          <ion-avatar slot="start" class="product-avatar">
+            <img [src]="item.imagem" />
+          </ion-avatar>
+          <ion-label text-wrap>{{ item.nome }}</ion-label>
+          <ion-radio slot="end" [value]="item.id"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label>Chapas *</ion-label>
+      </ion-list-header>
+      <ion-item *ngIf="loading">
+        <div class="text-center w-100p">
+          <ion-spinner name="circular" color="medium"></ion-spinner>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-segment [formControl]="quoteForm.doorSize" [scrollable]="true">
+          <ion-segment-button *ngFor="let item of quoteItems.doorSizes;" [value]="item.id">
+            <ion-label>{{ item.nome }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+    </ion-item-group>
+    <ion-item>
+      <div class="buttons-container">
+        <ion-button type="button" shape="round" color="medium" [disabled]="saving" (click)="onPreviews()">
+          <ion-icon slot="start" name="arrow-back"></ion-icon>
+          <span>
+            <ion-label>Voltar</ion-label>
+          </span>
+        </ion-button>
+        <ion-button type="button" shape="round" color="success" [disabled]="!formIsValid() || saving || loading"
+          (click)="onGetDoorProfileClick()">
+          <span>
+            <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+            <ion-label *ngIf="!saving">Continuar</ion-label>
+          </span>
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</div>

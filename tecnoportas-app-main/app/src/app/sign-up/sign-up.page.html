@@ -1,0 +1,175 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastre-se</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <div class="form-container">
+    <form>
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Cadastro Tecnoportas</ion-label>
+        </ion-list-header>
+
+        <ion-item-group>
+          <ion-item-divider>
+            Tipo de Cadastro *
+          </ion-item-divider>
+          <ion-radio-group #radPersonType [formControl]="form.personType" value="f">
+            <ion-item>
+              <ion-label>Pessoa Física</ion-label>
+              <ion-radio value="f"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Pessoa Jurídica</ion-label>
+              <ion-radio value="j"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-item-group>
+        <ion-item-group *ngIf="radPersonType.value === 'f'">
+          <ion-item-divider>
+            Seus dados
+          </ion-item-divider>
+          <ion-item>
+            <ion-label position="floating">Nome Completo *</ion-label>
+            <ion-input type="text" [formControl]="form.name" [required]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">CPF</ion-label>
+            <ion-input type="text" [formControl]="form.cpf" placeholder="000.000.000-00"
+              [brmasker]="{mask:'000.000.000-00', len: 14}">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">RG</ion-label>
+            <ion-input type="text" [formControl]="form.rg" placeholder="00.000.000-0"
+              [brmasker]="{mask:'00.000.000-0', len: 12}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Telefone</ion-label>
+            <ion-input type="tel" [formControl]="form.phone" placeholder="(00) 00000-0000"
+              [brmasker]="{phone: true, len: 14}">
+            </ion-input>
+          </ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="radPersonType.value === 'j'">
+          <ion-item-divider>
+            Dados da empresa
+          </ion-item-divider>
+          <ion-item>
+            <ion-label position="floating">Razão Social *</ion-label>
+            <ion-input type="text" [formControl]="form.companyName" [required]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Nome Fantasia *</ion-label>
+            <ion-input type="text" [formControl]="form.companyNickName" [required]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">CNPJ *</ion-label>
+            <ion-input type="text" [formControl]="form.cnpj" placeholder="00.000.000/0000-00"
+              [brmasker]="{mask:'00.000.000/0000-00', len: 18}" [required]="true">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">IE *</ion-label>
+            <ion-input type="text" [formControl]="form.ie" [required]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Telefone *</ion-label>
+            <ion-input type="tel" [formControl]="form.phone" placeholder="(00) 00000-0000"
+              [brmasker]="{phone: true, len: 14}" [required]="true">
+            </ion-input>
+          </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item-divider>
+            Dados de acesso
+          </ion-item-divider>
+          <ion-item>
+            <ion-label position="floating">E-mail *</ion-label>
+            <ion-input type="email" [formControl]="form.email" [required]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Nome de Usuário *</ion-label>
+            <ion-input type="text" [formControl]="form.username" [required]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Senha *</ion-label>
+            <ion-input type="password" [formControl]="form.password" [required]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Confirmar Senha *</ion-label>
+            <ion-input type="password" [formControl]="form.confirmPassword" [required]="true"></ion-input>
+          </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item-divider>
+            Endereço
+          </ion-item-divider>
+          <ion-item>
+            <ion-label position="floating">CEP{{ radPersonType.value === 'j' ? ' *' : '' }}</ion-label>
+            <ion-input type="text" [formControl]="form.cep" placeholder="00000-000"
+              [brmasker]="{mask:'00000-000', len: 9}" [required]="radPersonType.value === 'j'">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Cidade{{ radPersonType.value === 'j' ? ' *' : '' }}</ion-label>
+            <ion-input type="text" [formControl]="form.city" [required]="radPersonType.value === 'j'"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Estado{{ radPersonType.value === 'j' ? ' *' : '' }}</ion-label>
+            <ion-select cancelText="Cancelar" [formControl]="form.state">
+              <ion-select-option *ngFor="let state of states" [value]="state">{{ state }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Logradouro{{ radPersonType.value === 'j' ? ' *' : '' }}</ion-label>
+            <ion-input type="text" [formControl]="form.address" [required]="radPersonType.value === 'j'"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Número{{ radPersonType.value === 'j' ? ' *' : '' }}</ion-label>
+            <ion-input type="text" [formControl]="form.addressNumber" [required]="radPersonType.value === 'j'">
+            </ion-input>
+          </ion-item>
+        </ion-item-group>
+        <ion-item-divider>
+          Antes de continuar...
+        </ion-item-divider>
+        <ion-item>
+          <ion-checkbox [formControl]="form.termsAccepted" slot="start"></ion-checkbox>
+          <ion-label text-wrap>Eu concordo com as <a href="#" (click)="onTermsClick($event)">políticas e termos de
+              uso</a>.
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <div class="buttons-container">
+            <ion-button type="button" shape="round" color="tertiary" routerLink="/home">
+              <ion-icon slot="start" name="arrow-back"></ion-icon>
+              <span>
+                <ion-label>Voltar</ion-label>
+              </span>
+            </ion-button>
+            <ion-button type="button" shape="round" color="success" [disabled]="!formIsValid()"
+              (click)="onSubmitClick()">
+              <ion-icon slot="start" name="checkmark"></ion-icon>
+              <span>
+                <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+                <ion-label *ngIf="!saving">Enviar</ion-label>
+              </span>
+            </ion-button>
+          </div>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

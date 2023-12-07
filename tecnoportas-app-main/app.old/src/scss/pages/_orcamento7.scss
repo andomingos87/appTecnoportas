@@ -1,0 +1,104 @@
+/* --- O R C A M E N T O --- */
+// teste
+.section-orcamento7 {
+  margin-bottom: 1rem;
+  .icon { width: 2rem; height: 1.7rem;}
+  .cad-title { text-align: center;  margin-bottom: 2rem; }
+  .section-orcamento4 .radio-azul span { text-align: initial; }
+}
+
+/* --- F O R M  C O N F I G --- */
+.section-orcamento7 {
+  .span { margin:0;  &.-little { font-size: 0.8rem; text-align: center; } }
+  .cores { background: $c-e-white; border-radius: 1rem; padding: .5rem; }
+  .diferenciado 
+    img {
+    width: 100%;
+    padding: .1rem;
+   }
+  .lista-opcao { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .radio-azul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 0 24%;
+    max-width: 6rem;
+    @media #{$device-g-md} {
+      max-width: 8rem;
+    }
+  }
+  .opcao { flex-wrap: wrap; padding-bottom: 2rem; padding-top: 2rem; display: flex; 
+    &:not(:last-child) { border-bottom: 1px solid $c-p-cc; }
+    &:first-child {  justify-content: center; }
+  }
+}
+
+.section-orcamento7 {
+  .opcao {
+    .radio-azul.diferenciado{
+      span {
+        font-weight: bold;
+        text-transform: uppercase;
+        &.-little {
+          font-weight: 100;
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+}
+/* --- B O T Õ E S  C O N F I G --- */
+.section-orcamento7 {
+  //.botoes-form { display: flex; justify-content: space-around; margin-top: 2rem; width: 100%; }
+  .botoes-form {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    padding: 1rem;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: -1px 1px 10px 0px black;
+  }
+  .radios { display: flex; flex-direction: row; justify-content: space-around; width: 100%; }
+  .radio-azul span { color: black; text-align: initial;}
+}
+
+/* --- C O N D I Ç Õ E S  --- */
+.section-orcamento7 {
+  .botoes-form { display: none; z-index: 1; &.-is-active { display: flex; }}
+}
+.section-orcamento7 {
+  .radio-azul .form-control:checked ~ i ~figure::before {
+    content: " ";
+    display: inline-block;
+    z-index: 2;
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    top: 50%;
+    left: 50%;
+    border-radius: 100%;
+    margin-top: -13px;
+    margin-left: -13px;
+    background-color: #3f439c;
+    background-image: url(../img/certo.png);
+    background-position: center center;
+    background-size: 18px;
+    background-repeat: no-repeat;
+  }
+  .radio-azul .form-control:checked ~i ~figure::after {
+    content: " ";
+    z-index: 1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 2px solid #3f439c;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  .selecao-cores { i { display: none; } }
+}

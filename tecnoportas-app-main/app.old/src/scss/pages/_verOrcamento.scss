@@ -1,0 +1,79 @@
+/* --- C A B E Ç A L H O --- */
+.section-verOrc {
+  .verOrc {	background: $c-e-white;	border-radius: 1rem;	padding: 1rem;	margin-bottom: 3rem; }
+  .logo { display: flex; justify-content: center;
+  .icon {  height: 6rem; width: 5rem; color: $c-p; display: flex; } }
+}
+
+/* --- C O R P O - O R Ç A M E N T O --- */
+.section-verOrc {
+  .detalhes { border-top: 1px solid #cecece; padding-top: 1rem; margin-top: 2rem; }
+  .lista-informacoes { 
+    @media #{$device-g-md} { font-size: 1.8rem; }
+  }
+  .informacao {
+    display: flex;
+    justify-content: space-between;
+    color: $c-e-black;
+    padding: 1rem;
+    align-items: center;
+    border-top: 1px solid #dee2e6;
+    &:nth-child(odd) { background-color: rgba(0,0,0,.05); }
+    &.-left { justify-content: flex-end; font-size: 1.2rem; }
+  }
+  .titulo { font-weight: 900; font-size: 1rem; flex: 1; text-align: center; 
+    &.-end { padding-right: 4rem; }
+    @media #{$device-g-md} { font-size: 1.8rem; } }
+  .resposta { flex: 1; text-align: end;
+    &.-bold { font-weight: bold; }
+    @media #{$device-g-md} { font-size: 1.8rem; } }
+}
+
+/* --- T A B E L A  D E  P R O D U T O S --- */
+.section-verOrc {
+  .cabecalho { 
+    font-weight: bold;
+    border-top: 1px solid #cecece;
+    margin-top: 1rem;
+    padding-bottom: .5rem;
+  }
+  .produto {  border-top: 1px solid #dee2e6; padding: .5rem;
+    &:nth-child(odd) { background: rgba(0,0,0,.05); }
+  }
+  .listagem {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr;
+    text-align: center;
+    color: $c-e-black;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: .1rem;
+    @media #{$device-g-md} { font-size: 1.4rem; }
+  }
+  img { width: 95%; }
+}
+
+/* --- B O T Õ E S  --- */
+.section-verOrc {
+  .botao {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #cecece;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+  #selStatus {
+    background-image: url('../img/refresh.png');
+    background-size: 1.7rem;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 15px);
+    padding-right: 1.7rem;
+    background-color: rgb(210, 210, 210);
+    color: black;
+    border-radius: 5px;
+  }
+}

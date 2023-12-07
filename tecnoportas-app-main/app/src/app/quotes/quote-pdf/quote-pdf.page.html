@@ -1,0 +1,213 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Criando o PDF</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="light-bg">
+  <div *ngIf="loading || !configs" class="loading-container">
+    <ion-spinner name="circular" color="medium"></ion-spinner>
+  </div>
+  <swiper *ngIf="quote && configs" #zoomContainer [config]="swiperConfig">
+    <ng-template swiperSlide>
+      <div class="swiper-zoom-container">
+        <img id="zoomImg" src="/assets/img/transparent.png" alt="document" />
+        <div #pdfDiv id="pdfContainer">
+          <table>
+            <thead class="text-center">
+              <tr>
+                <td>
+                  <img class="logo" [src]="loggedUser.foto || '/assets/img/logo.png'" alt="Orçamento" />
+                </td>
+                <td colspan="3">
+                  <h5>{{ getName(false) }}</h5>
+                  <span [innerHTML]="getAddress(false)"></span>
+                  <br />
+                  <span *ngIf="getPhone(false)">
+                    Telefone {{ getPhone(false) }}
+                  </span>
+                  <br />
+                  <span>
+                    {{ loggedUser.tipo === 'f' ? 'CPF' : 'CNPJ' }}:
+                    {{ loggedUser.cnpj }}
+                    {{ loggedUser.tipo === 'f' ? 'RG' : 'IE' }}:
+                    {{ loggedUser.ie }}
+                  </span>
+                  <br />
+                  <strong>{{ loggedUser.email }}</strong>
+                </td>
+                <td>
+                  <h5>ORÇAMENTO</h5>
+                  <h5>{{ quote.orcamento_data.id }}</h5>
+                  <span>{{ getDateTime() }}</span>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th colspan="5" class="text-center title">
+                  <strong>Dados do Cliente</strong>
+                </th>
+              </tr>
+              <tr>
+                <td class="text-right">
+                  <strong>Nome:</strong>
+                </td>
+                <td>
+                  <strong>{{ getName() }}</strong>
+                </td>
+                <td class="text-right">
+                  <span>Telefone:</span>
+                </td>
+                <td colspan="2">
+                  {{ getPhone() }}
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right">
+                  <span>Endereço:</span>
+                </td>
+                <td colspan="4">
+                  <span [innerHTML]="getAddress()"></span>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right">
+                  <span>E-mail:</span>
+                </td>
+                <td colspan="4">
+                  <strong>{{ quote.orcamento_data.email }}</strong>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3" class="text-right">
+                  <span>Solicitante:</span>
+                </td>
+                <td colspan="2">
+                  <span>{{ quote.orcamento_data.cli_nome }}</span>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="5" class="text-center title">
+                  <strong>Dados do Orçamento</strong>
+                </th>
+              </tr>
+              <tr>
+                <td class="text-right">
+                  <strong>Vendedor:</strong>
+                </td>
+                <td>
+                  <strong>{{ getSellerName() }}</strong>
+                </td>
+                <td class="text-right">
+                  <span>Frete:</span>
+                </td>
+                <td colspan="2">
+                  <span>Destinatário (Fob)</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right">
+                  <span>E-mail:</span>
+                </td>
+                <td colspan="4">
+                  <strong>{{ loggedUser.email }}</strong>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-right">
+                  <strong>Validade:</strong>
+                </td>
+                <td>
+                  <strong>{{ getQuoteValidate() }}</strong>
+                </td>
+                <td class="text-right">
+                  <span>Previsão Entrega:</span>
+                </td>
+                <td colspan="2">
+                  <span>{{ getQuoteValidate() }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <thead *ngIf="quote.orcamento_data.portas" class="add-borders text-center">
+              <tr>
+                <td>
+                  <span>
+                    Quantidade:
+                    <br />
+                    {{ quote.orcamento_data.portas }}
+                  </span>
+                </td>
+                <td>
+                  <span>
+                    Comprimento:
+                    <br />
+                    {{ quote.orcamento_data.largura }}
+                  </span>
+                </td>
+                <td colspan="2">
+                  <span>
+                    Altura:
+                    <br />
+                    {{ getDoorHeight() }}
+                  </span>
+                </td>
+                <td>
+                  <span>
+                    Rolo:
+                    <br />
+                    {{ getAdditionalHeight() }}
+                  </span>
+                </td>
+                <td>
+                  <span>
+                    {{ quote.orcamento_data.tpi_id === '25' ? 'Dentro' : 'Fora' }} do vão
+                  </span>
+                </td>
+                <td>
+                  <span>
+                    M2:
+                    <br />
+                    {{ getDoorM2() }}
+                  </span>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Código</th>
+                <th colspan="4">Descrição</th>
+                <th>Und</th>
+                <th>Qtd</th>
+              </tr>
+              <tr *ngFor="let item of quote.produtos; let i = index">
+                <td>{{ getProductCode(item) }}</td>
+                <td colspan="4">{{ getProductName(item) }}</td>
+                <td>{{ item.medida }}</td>
+                <td>{{ item.quantidade }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="7" class="text-right title">
+                  Total R$: {{ quote.orcamento_data.valor_total }}
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+          <h5>Observações</h5>
+          <p>{{ quote.orcamento_data.ocorrencias || '' }}</p>
+          <br />
+
+          <!-- Termos de garantia agora vem do painel e podem ser editados por lá -->
+          <section id="customData" [innerHTML]="configs.termos_garantia_pdf"></section>
+        </div>
+      </div>
+    </ng-template>
+  </swiper>
+</ion-content>
+
+<app-pdf-modal #pdfModal [loggedUser]="loggedUser" [quoteId]="quoteId" (modalClosed)="onClosePdfModal()">
+</app-pdf-modal>

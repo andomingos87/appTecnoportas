@@ -1,0 +1,116 @@
+<form>
+  <ion-list>
+    <ion-list-header *ngIf="addHeader">
+      <ion-spinner *ngIf="loading" name="circular" color="medium"></ion-spinner>
+      <ion-label *ngIf="!loading">Cadastro do Cliente</ion-label>
+    </ion-list-header>
+    <ion-item-group>
+      <ion-item-divider>
+        Tipo de Cadastro *
+      </ion-item-divider>
+      <ion-radio-group #radPersonType [formControl]="form.personType">
+        <ion-item>
+          <ion-label>Pessoa Física</ion-label>
+          <ion-radio value="f"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Pessoa Jurídica</ion-label>
+          <ion-radio value="j"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item-group>
+    <ion-item-group *ngIf="radPersonType.value === 'f'">
+      <ion-item-divider>
+        Dados do cliente
+      </ion-item-divider>
+      <ion-item>
+        <ion-label position="floating">Nome Completo *</ion-label>
+        <ion-input type="text" [formControl]="form.name" [required]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">CPF</ion-label>
+        <ion-input type="text" [formControl]="form.document" [required]="false"></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="radPersonType.value === 'j'">
+      <ion-item-divider>
+        Dados da empresa
+      </ion-item-divider>
+      <ion-item>
+        <ion-label position="floating">Razão Social</ion-label>
+        <ion-input type="text" [formControl]="form.companyName" [required]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nome Fantasia *</ion-label>
+        <ion-input type="text" [formControl]="form.companyNickName" [required]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">CNPJ</ion-label>
+        <ion-input type="text" [formControl]="form.document" [required]="false"></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider>
+        Formas de contato
+      </ion-item-divider>
+      <ion-item>
+        <ion-label position="floating">E-mail *</ion-label>
+        <ion-input type="email" [formControl]="form.email" [required]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Telefone *</ion-label>
+        <ion-input type="tel" [formControl]="form.phone" placeholder="(00) 00000-0000"
+          [brmasker]="{phone: true, len: 15}" [required]="true">
+        </ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider>
+        Endereço
+      </ion-item-divider>
+      <ion-item>
+        <ion-label position="floating">Rua/Av</ion-label>
+        <ion-input type="text" [formControl]="form.street" [required]="false"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Número</ion-label>
+        <ion-input type="text" [formControl]="form.number" [required]="false"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Complemento</ion-label>
+        <ion-input type="text" [formControl]="form.complement" [required]="false"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Cidade *</ion-label>
+        <ion-input type="text" [formControl]="form.city" [required]="radPersonType.value === 'j'"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Estado *</ion-label>
+        <ion-select cancelText="Cancelar" [formControl]="form.state">
+          <ion-select-option *ngFor="let state of states" [value]="state">{{ state }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">País</ion-label>
+        <ion-input type="text" [formControl]="form.country" [required]="false"></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item *ngIf="addButtons">
+      <div class="buttons-container">
+        <ion-button type="button" shape="round" color="tertiary" (click)="onBackClick()">
+          <ion-icon slot="start" name="arrow-back"></ion-icon>
+          <span>
+            <ion-label>Voltar</ion-label>
+          </span>
+        </ion-button>
+        <ion-button type="button" shape="round" color="success" (click)="onSubmitClick()" [disabled]="!formIsValid()">
+          <ion-icon slot="start" name="checkmark"></ion-icon>
+          <span>
+            <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+            <ion-label *ngIf="!saving">Salvar</ion-label>
+          </span>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</form>

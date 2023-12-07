@@ -1,0 +1,7 @@
+app/node_modules
+app/www/css
+app/www/img
+!app/www/css/imageviewer.css
+app/www/js
+platforms
+plugins

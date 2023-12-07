@@ -1,0 +1,1 @@
+"use strict";app=app.arrayPush(app,{getPushKey:function(r){app.IsConectado()?window.FirebasePlugin.getToken(function(n){r(n||{error:"Token nulo"})},function(n){r({error:"Erro no plugin"})}):r({error:"net"})}},!1);

@@ -1,0 +1,196 @@
+/* --------------------- BUTTONS ---------------------------- */
+.btn {
+  color: $c-p-bg;
+  background-color: $c-p;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.2rem 1.5rem;
+  transition: 500ms ease;
+  transition-property: opacity, outline;
+  border:0;
+  border-radius: 4px;
+  &:focus{ outline: 1px solid $c-p; }
+  &:hover{ opacity: 0.7; }
+  &:active{ opacity: 0.9; }
+  &-md{
+    @extend .btn;
+    width: 80%;
+  }
+}
+
+.btn-default-big {
+  display: inline-block;
+  background-color: $c-p-bt;
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 10px 25px;
+  margin: 3px 0px;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  border: 1px solid $c-p-bt;
+  max-width: 40rem;
+  &.azul {
+    background-color: #3F439C;
+    border: 1px solid #3F439C;
+  }
+  &.branco {
+    background: white;
+    border: 1px solid white;
+    color: #3F439C;
+    .icon {
+      color: #3F439C;
+    }
+  }
+}
+
+.btn-default {
+  display: inline-block;
+  background-color: #87C72A;
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 7px 13px;
+  margin: 3px 0px;
+  align-items: center;
+  border: 1px solid #87C72A;
+  max-width: 25rem;
+  font-size: 1.2rem;
+  display: flex;
+    .icon {
+      display: inline-block;
+      width: 2rem;
+      height: 1.7rem;
+      stroke-width: 0;
+      color: #fff;
+      stroke: currentColor;
+      fill: currentColor;
+      padding: 0 0rem 0 -1rem;
+      display: flex;
+    }
+  &.azul {
+    background: #3F439C;
+    border: 1px solid #3F439C;
+  }
+  &.vermelho {
+    background-color: $c-s-negative;
+    border: 1px solid $c-s-negative;
+  }
+  &.branco {
+    background: white;
+    border: 1px solid white;
+    color: #3F439C;
+    .icon {
+      color: #3F439C;
+
+    }
+  }
+}
+
+#btTecnoportas{
+  display: block;
+  float: left;
+  background-color: transparent;
+  border: 0px;
+  width: 30px;
+  height: 30px;
+  padding: 1px;
+  margin: 12px;
+  float: right;
+}
+
+/* Remove later button img {
+  display: inline-block;
+  max-width: 100%;
+}
+button[type='submit'] img, button[type='button'] img {
+  -webkit-filter: brightness(2);
+  filter: brightness(2);
+  max-width: 20px !important;
+  padding: 2px;
+  margin-top: -4px;
+}
+.bt-grande {
+  padding: 10px;
+  width: calc(100% - 1px);
+  height: 120px;
+  text-align: center;
+  border: 1px solid transparent;
+  background-color: $c-p-l;
+  margin: 1px;
+  border-radius: 0px;
+  font-weight: bold;
+  color: $c-e-white;
+}
+.bt-grande .icone{
+  display: block;
+  width: 30px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.bt-circulo img{
+  max-width: 100% !important;
+}
+.bt-circulo {
+  position: relative;
+  border-radius: 100%;
+  background-color: $c-p;
+  border-color: $c-p;
+  color: $c-e-white;
+  padding: 10px;
+  width: 50px !important;
+  height: 50px !important;
+}
+.bt-circulo span, .bt-vermelho span{
+  position: absolute;
+  font-size: 11px;
+  bottom: -17px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  font-weight: normal;
+}
+.bt-circulo.float-right {
+  background-color: $c-p-l;
+  border-color: $c-p-l;
+}
+.bt-vermelho {
+  position: relative;
+  border-radius: 30px;
+  background-color: $c-a-bt;
+  border-color: $c-a-bt;
+  padding: 3px;
+  width: 160px !important;
+  height: 32px !important;
+  font-weight: bold;
+  color: $c-e-white;
+  margin-top: 10px;
+}
+.btn-primary {
+  background-color: $c-p;
+  border-color: $c-p;
+  border-radius: 30px;
+}
+
+.bt-redond{
+  display: inline-block;
+  background-color: $c-p;
+  color: $c-e-white;
+  border-radius: 30px;
+  padding: 10px 25px;
+  margin: 3px 0px;
+  width: 100%;
+  text-align: left;
+  img{
+    max-width: 30px !important;
+    max-height: 30px !important;
+    vertical-align: middle;
+    margin-top: -6px;
+    margin-right: 10px;
+  }
+}
+.bt-redond-g{
+  padding: 18px 25px;
+  margin: 18px 0px;
+}
+ */

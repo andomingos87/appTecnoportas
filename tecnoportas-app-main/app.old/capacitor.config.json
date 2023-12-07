@@ -1,0 +1,21 @@
+{
+  "appId": "com.tecnoportas.app",
+  "appName": "Tecnoportas",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "cordova": {
+    "preferences": {
+      "SplashScreen": "screen",
+      "ShowSplashScreenSpinner": "true",
+      "SplashMaintainAspectRatio": "true",
+      "SplashShowOnlyFirstTime": "true",
+      "SplashScreenBackgroundColor": "0xffffff",
+      "BackgroundColor": "0x3f439c",
+      "windows-target-version": "10.0",
+      "AndroidPersistentFileLocation": "Compatibility",
+      "webviewbounce": "false",
+      "android-minSdkVersion": "22",
+      "android-targetSdkVersion": "28"
+    }
+  }
+}

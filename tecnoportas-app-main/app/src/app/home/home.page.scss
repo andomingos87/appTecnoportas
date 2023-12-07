@@ -1,0 +1,31 @@
+div.logo-container {
+    text-align: center;
+    margin-top: 30px;
+    ion-img {
+        max-width: 150px;
+        margin: 0 auto;
+    }
+}
+
+div.buttons-container {
+    margin-top: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: center;
+
+    ion-button {
+        width: 100%;
+        max-width: 300px;
+        span {
+            margin-bottom: -2px;
+            text-align: left;
+            width: 100%;
+        }
+    }
+}
+
+ion-card.warning-card {
+    margin-top: 40px;
+    margin-left: 30px;
+    margin-right: 30px;
+}

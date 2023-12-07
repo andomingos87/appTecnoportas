@@ -1,0 +1,51 @@
+<ion-card>
+  <img [src]="selectedProduct?.imagem" [alt]="selectedProduct?.nome" />
+  <ion-card-header>
+    <ion-card-title>{{ selectedProduct?.nome }}</ion-card-title>
+    <ion-card-subtitle>{{ selectedProduct?.descricao }}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Detalhes desse produto</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label slot="start">ID:</ion-label>
+        <ion-label>{{ selectedProduct?.id }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label slot="start">NOME:</ion-label>
+        <ion-label text-wrap>{{ selectedProduct?.nome }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label slot="start">Preço:</ion-label>
+        <ion-label>R$: {{ selectedProduct?.valor_unitario }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label slot="start">Descrição:</ion-label>
+        <ion-label text-wrap>{{ selectedProduct?.descricao }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Quantidade *</ion-label>
+        <ion-input type="number" [formControl]="form.quantity"></ion-input>
+      </ion-item>
+      <ion-item>
+        <div class="buttons-container">
+          <ion-button type="button" shape="round" color="medium" (click)="onCloseClick()">
+            <ion-icon slot="start" name="close"></ion-icon>
+            <span>
+              <ion-label>Fechar</ion-label>
+            </span>
+          </ion-button>
+          <ion-button type="button" shape="round" color="success"
+            (click)="onAddToCartClick(form.quantity.value || 1);onCloseClick()">
+            <ion-icon slot="start" name="add"></ion-icon>
+            <span>
+              <ion-label>Carrinho</ion-label>
+            </span>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

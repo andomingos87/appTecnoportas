@@ -1,0 +1,121 @@
+<section class="section-addCli">
+    <div class="container">
+      <div class="logo">
+        <svg class="icon w-100 mg -bm-md">
+          <use xlink:href="icon.svg#icon-group"></use>
+        </svg>
+      </div>
+      <div class="addCli">
+        <form id="form_editar_cliente" action="">
+          <div class="pessoa-tipo">
+            <div class="box-input">
+              <div class="pergunta">
+                <h3 class="cad-title -upper">Pessoa*:</h3>
+              </div>
+              <div class="opcoes-pessoa">
+                <label class="radio-azul cad-title">
+                  <h3 class="cad-title -small -upper">Física</h3>
+                  <input value="F" id="tipof" type="radio" class="form-control tipoPessoa" name="tipoPessoa"/>
+                  <i></i>
+                </label>
+                <label class="radio-azul cad-title">
+                  <h3 class="cad-title -small -upper">Jurídica</h3>
+                  <input value="J" id="tipoj" type="radio" class="form-control tipoPessoa" name="tipoPessoa" />
+                  <i></i>
+                </label>
+              </div>
+              <p class="invalid-feedback">Informe o tipo de pessoa</p>
+            </div>
+            <div class="box-input">
+              <div class="pergunta">
+                <h3 id="labNome" class="cad-title -upper">Nome*:</h3>
+              </div>
+              <div class="nome">
+                <input type="text" id="nome" name="nome" class="cad-title -grey invalid-input input-default" >
+              </div>
+              <p class="invalid-feedback">Informe o Nome</p>
+            </div>
+            <div class="box-input">
+              <div class="pergunta">
+                <h3 id="labSobrenome" class="cad-title -upper">Sobrenome*:</h3>
+              </div>
+              <div class="sobrenome">
+                <input type="text" id="sobrenome" name="sobrenome" class="cad-title -grey invalid-input input-default">
+              </div>
+              <p class="invalid-feedback">Informe o Sobrenome</p>
+            </div>
+            <div class="box-input">
+              <div class="pergunta">
+                <h3 class="cad-title -upper">Telefone*:</h3>
+              </div>
+              <div class="telefone">
+                <input type="number" id="ddd" name="ddd" class="cad-title -grey invalid-input input-default flex1" required>
+                <input type="number" id="telefone" name="telefone" class="cad-title -grey invalid-input input-default flex2" required>
+              </div>
+              <p class="invalid-feedback">Informe o telefone</p>
+            </div>
+            <div class="box-input">
+              <div class="pergunta">
+                <h3 class="cad-title -upper">E-mail*:</h3>
+              </div>
+              <div class="email">
+                <input type="text" id="email" name="email" class="cad-title -grey invalid-input input-default" required>
+              </div>
+              <p class="invalid-feedback">Informe o e-mail</p>
+            </div>
+            <div class="box-input">
+              <div class="pergunta">
+                <h3 class="cad-title -upper">Estado*:</h3>
+              </div>
+              <div class="estados">
+                <select id="estados_brasil" name="estados_brasil" class="input-default cad-title -grey">
+                  <option value="AC">Acre</option>
+                  <option value="AL">Alagoas</option>
+                  <option value="AP">Amapá</option>
+                  <option value="AM">Amazonas</option>
+                  <option value="BA">Bahia</option>
+                  <option value="CE">Ceará</option>
+                  <option value="DF">Distrito Federal</option>
+                  <option value="ES">Espírito Santo</option>
+                  <option value="GO">Goiás</option>
+                  <option value="MA">Maranhão</option>
+                  <option value="MT">Mato Grosso</option>
+                  <option value="MS">Mato Grosso do Sul</option>
+                  <option value="MG">Minas Gerais</option>
+                  <option value="PA">Pará</option>
+                  <option value="PB">Paraíba</option>
+                  <option value="PR">Paraná</option>
+                  <option value="PE">Pernambuco</option>
+                  <option value="PI">Piauí</option>
+                  <option value="RJ">Rio de Janeiro</option>
+                  <option value="RN">Rio Grande do Norte</option>
+                  <option value="RS">Rio Grande do Sul</option>
+                  <option value="RO">Rondônia</option>
+                  <option value="RR">Roraima</option>
+                  <option value="SC">Santa Catarina</option>
+                  <option value="SP">São Paulo</option>
+                  <option value="SE">Sergipe</option>
+                  <option value="TO">Tocantins</option>
+                </select>
+                <p class="invalid-feedback">Informe o Estado</p>
+              </div>
+            </div>
+            <div class="box-input">
+              <div class="pergunta">
+                <h3 class="cad-title -upper">Cidade*:</h3>
+              </div>
+              <div class="cidade">
+                <input type="text" id="cidade" name="cidade" class="cad-title -grey invalid-input input-default" required>
+              </div>
+              <p class="invalid-feedback">Informe a Cidade</p>
+            </div>
+            <div class="botoes">
+              <button type="submit" id="btn_editar" class="btn btn-default azul">
+                  Editar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>

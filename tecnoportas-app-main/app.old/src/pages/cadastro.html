@@ -1,0 +1,198 @@
+<section class="section-cadastro">
+	<div class="container">
+		<div class="form-cadastro">
+			<form id="formCadastro" action="">
+				<div class="cad-pessoa">
+					<div class="box-input">
+						<div class="genero-opcoes">
+							<h3 class="cad-title -upper">Pessoa:</h3>
+							<div class="radios">
+								<div class="opcoes-pessoa">
+									<label class="radio-azul cad-title">
+										<h3 class="cad-title -small">Física</h3>
+										<input value="F" id="tipoF" type="radio" class="form-control" name="tipo[]"
+											checked="checked" />
+										<i></i>
+									</label>
+									<label class="radio-azul cad-title">
+										<h3 class="cad-title -small">Jurídica</h3>
+										<input value="J" id="tipoJ" type="radio" class="form-control" name="tipo[]" />
+										<i></i>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="campo-duplo">
+						<div class="campo-um"> 
+							<h3 id="labCpf" class="cad-title -upper">CPF:</h3>
+							<div class="box-input">
+								<input type="text" id="cadCpf" name="cpf"
+									class="cad-title -grey invalid-input input-default" >
+								<p class="invalid-feedback">Informe o CPF</p>
+							</div>
+						</div>
+						<div class="campo-um">
+							<h3 id="labRg" class="cad-title -upper">RG:</h3>
+							<div class="box-input">
+								<input type="text" id="cadRg" name="rg"
+									class="cad-title -grey invalid-input input-default" >
+								<p class="invalid-feedback">Informe o RG</p>
+							</div>
+						</div>
+					</div>
+					<div class="campo">
+						<h3 id="labNome" class="cad-title -upper">Nome*:</h3>
+						<div class="box-input">
+							<input type="text" id="cadNome" name="nome"
+								class="cad-title -grey invalid-input input-default" required>
+							<p class="invalid-feedback">Informe o Nome</p>
+						</div>
+					</div>
+					<div class="campo">
+						<h3 id="labSobrenome" class="cad-title -upper">Sobrenome*:</h3>
+						<div class="box-input">
+							<input type="text" id="cadSobrenome" name="sobrenome"
+								class="cad-title -grey invalid-input input-default" required>
+							<p class="invalid-feedback">Informe o Sobrenome</p>
+						</div>
+					</div>
+					<div class="campo">
+						<h3 class="cad-title -upper">E-mail*:</h3>
+						<div class="box-input">
+							<input type="email" id="cadEmail" name="email"
+								class="cad-title -grey invalid-input input-default" required>
+							<p class="invalid-feedback">Informe o Email</p>
+						</div>
+					</div>
+					<div class="campo">
+							<h3 class="cad-title -upper">Nome de Usuário*:</h3>
+							<div class="box-input">
+								<input type="text" id="cadUsuario" name="nomeUsuario"
+									class="cad-title -grey invalid-input input-default" required>
+								<p class="invalid-feedback">Informe o nome de usuário</p>
+							</div>
+						</div>
+					<div class="campo-duplo">
+						<div class="campo-um">
+							<h3 class="cad-title -small -upper">Senha*:</h3>
+							<div class="box-input">
+								<input type="password" id="cadSenha" name="senha"
+									class="cad-title -grey invalid-input input-default" required>
+								<p class="invalid-feedback">Informe a Senha</p>
+							</div>
+						</div>
+						<div class="campo-um">
+							<h3 class="cad-title -small -upper">Confirmar Senha*:</h3>
+							<div class="box-input">
+								<input type="password" id="cadcSenha" name="cSenha"
+									class="cad-title -grey invalid-input input-default" required>
+								<p class="invalid-feedback">Senhas diferentes</p>
+							</div>
+						</div>
+					</div>
+					<div class="campo-duplo">
+						<div class="campo-um">
+							<h3 class="cad-title -small -upper">Telefone:</h3>
+							<div class="box-input">
+								<input type="text" id="cadcTelefone" name="telefone"
+									class="cad-title -grey invalid-input input-default" >
+								<p class="invalid-feedback">Informe o Telefone</p>
+							</div>
+						</div>
+					</div>
+					<div class="campo">
+							<h3 class="cad-title -small -upper">Endereço:</h3>
+							<div class="box-input">
+								<input type="text" id="cadEndereco" name="endereco"
+									class="cad-title -grey invalid-input input-default" >
+								<p class="invalid-feedback">Informe a Endereço</p>
+							</div>
+						</div>
+					<div class="campo-duplo">
+						<div class="campo-um">
+							<h3 class="cad-title -small -upper">Número:</h3>
+							<div class="box-input">
+								<input type="number" id="cadNumero" name="numero"
+									class="cad-title -grey invalid-input input-default" >
+								<p class="invalid-feedback">Informe o número</p>
+							</div>
+						</div>
+						<div class="campo-um">
+							<h3 class="cad-title -small -upper">Cep:</h3>
+							<div class="box-input">
+								<input type="text" id="cadcCep" name="cep"
+									class="cad-title -grey invalid-input input-default" >
+								<p class="invalid-feedback">Informe o Cep</p>
+							</div>
+						</div>
+					</div>
+					<div class="campo-duplo">
+						<div class="campo-um">
+							<h3 class="cad-title -small -upper">Cidade:</h3>
+							<div class="box-input">
+								<input type="text" id="cadCidade" name="cidade"
+									class="cad-title -grey invalid-input input-default" >
+								<p class="invalid-feedback">Informe a Cidade</p>
+							</div>
+						</div>
+						<div class="campo-um">
+							<h3 class="cad-title -small -upper">Estado:</h3>
+							<div class="box-input">
+								<select name="estado" class="input-default cad-title -grey">
+									<option value="0"> -- Selecione --</option>
+									<option value="AC">Acre</option>
+									<option value="AL">Alagoas</option>
+									<option value="AP">Amapá</option>
+									<option value="AM">Amazonas</option>
+									<option value="BA">Bahia</option>
+									<option value="CE">Ceará</option>
+									<option value="DF">Distrito Federal</option>
+									<option value="ES">Espírito Santo</option>
+									<option value="GO">Goiás</option>
+									<option value="MA">Maranhão</option>
+									<option value="MT">Mato Grosso</option>
+									<option value="MS">Mato Grosso do Sul</option>
+									<option value="MG">Minas Gerais</option>
+									<option value="PA">Pará</option>
+									<option value="PB">Paraíba</option>
+									<option value="PR">Paraná</option>
+									<option value="PE">Pernambuco</option>
+									<option value="PI">Piauí</option>
+									<option value="RJ">Rio de Janeiro</option>
+									<option value="RN">Rio Grande do Norte</option>
+									<option value="RS">Rio Grande do Sul</option>
+									<option value="RO">Rondônia</option>
+									<option value="RR">Roraima</option>
+									<option value="SC">Santa Catarina</option>
+									<option value="SP">São Paulo</option>
+									<option value="SE">Sergipe</option>
+									<option value="TO">Tocantins</option>
+								</select>
+								<p class="invalid-feedback">Informe o Estado</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="botoes-form">
+					<div class="voltar">
+						<button id="btVoltar2" type="button" class="btn btn-default azul">
+							<svg class="icon">
+								<use xlink:href="icon.svg#icon-chevron-left"></use>
+							</svg>
+							Voltar
+						</button>
+					</div>
+					<div class="avancar">
+						<button type="submit" class="btn btn-default">
+							Avançar
+							<svg class="icon">
+								<use xlink:href="icon.svg#icon-chevron-right"></use>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>

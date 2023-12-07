@@ -1,0 +1,48 @@
+<div class="list-container">
+  <ion-list>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label>Pintura Eletrostática</ion-label>
+      </ion-list-header>
+      <ion-item *ngIf="loading">
+        <div class="text-center w-100p">
+          <ion-spinner name="circular" color="medium"></ion-spinner>
+        </div>
+      </ion-item>
+      <ion-radio-group [formControl]="quoteForm.additionalPaint">
+        <ion-item>
+          <ion-avatar slot="start" class="product-avatar">
+            <img src="/assets/img/no_paint.jpg" />
+          </ion-avatar>
+          <ion-label text-wrap>Sem pintura eletrostática</ion-label>
+          <ion-radio slot="end" value="null"></ion-radio>
+        </ion-item>
+        <ion-item *ngFor="let item of quoteItems.doorPaints">
+          <ion-avatar slot="start" class="product-avatar">
+            <img [src]="item.imagem" />
+          </ion-avatar>
+          <ion-label text-wrap>{{ item.nome + ' - ' + item.descricao }}</ion-label>
+          <ion-radio slot="end" [value]="item.id"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item-group>
+    <ion-item>
+      <div class="buttons-container">
+        <ion-button type="button" shape="round" color="medium" [disabled]="saving" (click)="onPreviews()">
+          <ion-icon slot="start" name="arrow-back"></ion-icon>
+          <span>
+            <ion-label>Voltar</ion-label>
+          </span>
+        </ion-button>
+        <ion-button type="button" shape="round" color="success" [disabled]="saving || loading"
+          (click)="onDoorPaintClick()">
+          <span>
+            <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+            <ion-label *ngIf="!saving">Continuar</ion-label>
+          </span>
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</div>

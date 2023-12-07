@@ -1,0 +1,177 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Edição de Orçamento</ion-card-title>
+    <ion-card-subtitle>
+      Cliente
+      {{ selectedQuote?.tipo === 'f' ? selectedQuote?.nome + ' ' + selectedQuote?.sobrenome : selectedQuote.nome }}
+    </ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-label>{{ getDate() }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="alarm-outline" slot="start"></ion-icon>
+        <ion-label text-wrap>{{ getTime() }}</ion-label>
+      </ion-item>
+      <ion-item-divider>Cliente</ion-item-divider>
+      <ion-item>
+        <ion-avatar slot="start">
+          <div class="text-center letters-avatar-container">
+            {{ (selectedQuote.tipo === 'f' ? selectedQuote.nome.substring(0, 1) +
+            selectedQuote.sobrenome.substring(0, 1) :
+            selectedQuote.sobrenome).substring(0, 2).toUpperCase() }}
+          </div>
+        </ion-avatar>
+        <ion-label text-wrap>
+          {{ selectedQuote.tipo === 'f' ? selectedQuote.nome + ' ' + selectedQuote.sobrenome :
+          selectedQuote.sobrenome }}
+        </ion-label>
+        <ion-note slot="end">{{ selectedQuote.tipo === 'f' ? 'Pessoa' : 'Empresa' }}</ion-note>
+      </ion-item>
+      <ion-item *ngIf="loading">
+        <div class="text-center w-100p">
+          <ion-spinner name="circular" color="medium"></ion-spinner>
+        </div>
+      </ion-item>
+        <ion-item-group *ngIf="quoteDetails && quoteDetails?.orcamento?.portas">
+          <ion-item-divider>Portão</ion-item-divider>
+          <ion-item>
+            <ion-label>Largura (m):</ion-label>
+            <ion-input [(ngModel)]="formVisual.width" slot="end" type="number" style="max-width: 130px; text-align: right;" (focusout)="getAdditionalHeight()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Altura (m):</ion-label>
+            <ion-input [(ngModel)]="formVisual.height" slot="end" type="number" style="max-width: 130px; text-align: right;" (focusout)="getAdditionalHeight()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Rolo (m):</ion-label>
+            <ion-label slot="end">{{ formVisual.rolo }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Dentro do vão?:</ion-label>
+            <ion-select cancelText="Cancelar" class="colors-interface" [(ngModel)]="formVisual.is_dentro_vao">
+              <ion-select-option value="sim">Sim</ion-select-option>
+              <ion-select-option value="nao">Não</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-item-group>
+        <ion-item-divider>Produtos</ion-item-divider>
+        <div *ngIf="!products.length && !noProducts" class="loading-container">
+          <ion-spinner name="circular" color="medium"></ion-spinner>
+        </div>
+        <ion-item-group *ngFor="let product of products; let i = index">
+          <ion-item>
+            <ion-avatar slot="start" class="product-avatar">
+              <img [src]="product.imagem" />
+            </ion-avatar>
+            <ion-label text-wrap>{{ getProductQuantity(product) }} - {{ product.nome }}</ion-label>
+            <ion-button slot="end" fill="clear" shape="round" (click)="onExpandClick(i)">
+              <ion-icon slot="icon-only" [name]="productsSettings[i].expand ? 'caret-up' : 'caret-down'"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-item *ngIf="productsSettings[i].expand">
+            <ion-text slot="start">
+              <strong>Tipo</strong>
+            </ion-text>
+            <ion-text slot="end">
+              <strong>Preço</strong>
+            </ion-text>
+          </ion-item>
+          <ion-item *ngIf="productsSettings[i].expand">
+            <ion-label slot="start">{{ product.tipo_medida }}</ion-label>
+            <ion-label slot="end">R$: {{ product.preco_unitario }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="productsSettings[i].expand">
+            <ion-label slot="end">Margem: {{ product.acrescimo }}%</ion-label>
+          </ion-item>
+          <ion-item *ngIf="productsSettings[i].expand">
+            <div class="center-items">
+              <ion-button expand="block" (click)="changeProduct(product)" style="min-width: 80%;">Trocar</ion-button>
+            </div>
+          </ion-item>
+          <ion-item *ngIf="productsSettings[i].expand">
+            <div class="center-items">
+              <ion-button (click)="changeProductQuantity(product)" style="min-width: 80%;">Editar Quantidade</ion-button>
+            </div>
+          </ion-item>
+          <ion-item *ngIf="product.tipo_medida !== 'Mo' && productsSettings[i].expand">
+            <div class="center-items">
+              <ion-button (click)="changeProductMargem(product)" style="min-width: 80%;">Editar Margem</ion-button>
+            </div>
+          </ion-item>
+          <ion-item *ngIf="product.tipo_medida === 'Mo' && productsSettings[i].expand">
+            <div class="center-items">
+              <ion-button (click)="changeProductValue(product)" style="min-width: 80%;">Editar Mão de Obra</ion-button>
+            </div>
+          </ion-item>
+          <ion-item *ngIf="productsSettings[i].expand">
+            <div class="center-items">
+              <ion-button (click)="removeProduct(product)" style="min-width: 80%;">Excluir</ion-button>
+            </div>
+          </ion-item>
+        </ion-item-group>
+        <ion-item>
+          <ion-button slot="start" (click)="addProduct()">+ Adicionar Produto</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label>Valor total:</ion-label>
+          <ion-label slot="end">R$: {{ finalPrice() }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <div class="buttons-container">
+            <ion-button type="button" shape="round" color="medium" (click)="onCloseClick()">
+              <ion-icon slot="start" name="close"></ion-icon>
+              <span>
+                <ion-label>Fechar</ion-label>
+              </span>
+            </ion-button>
+            <ion-button type="button" shape="round" color="success" (click)="showSaveAlert()" [disabled]="!quoteDetails">
+              <ion-icon slot="start" name="document-outline"></ion-icon>
+              <span>
+                <ion-label>Salvar</ion-label>
+              </span>
+            </ion-button>
+          </div>
+        </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+<ion-modal #editPaint>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Orçamento {{ selectedQuote?.id }}</ion-title>
+        <ion-buttons slot="end">
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <app-door-paint [quoteData]="quoteData" [quoteForm]="quoteForm" [quoteItems]="quoteItems"
+        [loggedUser]="loggedUser" [loading]="loading" [saving]="saving" (previewsClick)="closePaintModal()" (nextClick)="updatePaint()">
+      </app-door-paint>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<ion-modal #editProduct>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Orçamento {{ selectedQuote?.id }}</ion-title>
+        <ion-buttons slot="end">
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <app-quote-edit-products
+        [loggedUser]="loggedUser" [defaultCategory]="currentCategory" (productClick)="updateProduct($event)" (closeClick)="closeTrocaModal()">
+      </app-quote-edit-products>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+

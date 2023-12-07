@@ -1,0 +1,21 @@
+<ion-modal #quotePdf>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Orçamento {{ quoteId }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onShareClick()">
+            <ion-icon name="share-social-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="onClose()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ng2-pdfjs-viewer *ngIf="pdfBlob" [pdfSrc]="pdfBlob">
+      </ng2-pdfjs-viewer>
+    </ion-content>
+  </ng-template>
+</ion-modal>

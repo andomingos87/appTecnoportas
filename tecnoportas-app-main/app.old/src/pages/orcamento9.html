@@ -1,0 +1,99 @@
+<section class="section-orcamento9">
+  <div class="container">
+    <div class="row">
+      <ul class="etapa-nums">
+        <li id="et1">1</li>
+        <li id="et2">2</li>
+        <li id="et3">3</li>
+        <li id="et4">4</li>
+        <li id="et5">5</li>
+        <li id="et6">6</li>
+        <li id="et7">7</li>
+        <li id="et8">8</li>
+        <li id="et9"><svg class="icon">
+            <use xlink:href="icon.svg#icon-flag-o"></use>
+          </svg></li>
+      </ul>
+    </div>
+    <form>
+      <div class="wrapper-produtos incluir-item">
+        <h3 class="cad-title -upper -center -margin">Relação de material</h3>
+        <div id="tblProds" class="table-produtos trable-striped">
+          <div class="heading">
+            <div class="item">Imagem</div>
+            <div class="item">Itens</div>
+            <div class="item">Qtd</div>
+            <div class="item">Valor (R$)</div>
+            <div class="item"></div>
+          </div>
+          <div id="listaProds" class="list">
+          </div>
+        </div>
+        <div id="selecMargem">
+
+        </div>
+        <div class="total">
+          <b>Total:<span id="valor_total">R$ 0,00</span></b>
+        </div>
+        <div id="btnsFinal" class="botoes-form">
+          <div class="voltar">
+            <button type="button" class="btn btn-default azul btvoltar" id="btnlVoltar">
+              <svg class="icon">
+                <use xlink:href="icon.svg#icon-chevron-left"></use>
+              </svg>
+            </button>
+          </div>
+          <div class="finalizar">
+            <button type="button" class="btn btn-default" id="btnEnvia"><svg class="icon">
+                <use xlink:href="icon.svg#icon-envelope"></use>
+              </svg>
+              <div class="text"><b>Finalizar e Enviar</b><small>para email do cliente</small></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <nav id="navFinal" class="nav-finalizar">
+      <ul>
+        <li class="item" id="btHome">
+          <svg class="icon">
+            <use xlink:href="icon.svg#icon-home"></use>
+          </svg>
+          <span>Início</span>
+        </li>
+        <li class="item" id="btSalvarPdf">
+          <svg class="icon">
+            <use xlink:href="icon.svg#icon-download"></use>
+          </svg>
+          <span>Salvar PDF</span>
+        </li>
+        <li class="item" id="btNovo">
+          <svg class="icon">
+            <use xlink:href="icon.svg#icon-file-text-o"></use>
+          </svg>
+          <span>Novo Orçamento</span>
+        </li>
+        <li class="item" id="btCompartPdf">
+          <svg class="icon">
+            <use xlink:href="icon.svg#icon-share"></use>
+          </svg>
+          <span>Compartilhar</span>
+        </li>
+      </ul>
+    </nav>
+    
+    <div id="divModal2" class="modal -dif">
+      <div class="heading-opcao">
+        <div id="opcaoo9" class="opcao">
+          <h2 id="modalProdNomeO9" class="nome">Deseja visualizar o PDF? </h2>
+          <p id="pzinho"></p>
+        </div>
+        <ul class="list-excluir">
+          <li id="listaExcluirSimo9" class="option">Sim</li>
+          <li id="listaExcluirNaoo9" class="option">Não</li>
+        </ul>
+      </div>
+    </div>
+    <div class="overlay" id="botaoOverlay"></div>
+  </div>
+</section>

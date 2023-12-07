@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Novo Orçamento</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content class="background">
+  <app-steps #steps (actualStepChange)="onActualStepChange($event)">
+    <ng-template appStep>
+      <app-door-settings [quoteForm]="quoteForm" [quoteItems]="quoteItems" [loading]="loading" [saving]="saving"
+        (nextClick)="onNextClick()" (previewsClick)="onPreviews()">
+      </app-door-settings>
+    </ng-template>
+    <ng-template appStep>
+      <app-door-type [quoteData]="quoteData" [quoteForm]="quoteForm" [quoteItems]="quoteItems" [loggedUser]="loggedUser"
+        [loading]="loading" [saving]="saving" (nextClick)="onNextClick()" (previewsClick)="onPreviews()"
+        (changeSaving)="onChangeSaving($event)" (setDoorProfile)="onSetDoorProfile($event)">
+      </app-door-type>
+    </ng-template>
+    <ng-template appStep>
+      <app-door-engine-type [quoteData]="quoteData" [quoteForm]="quoteForm" [quoteItems]="quoteItems"
+        [loggedUser]="loggedUser" [loading]="loading" [saving]="saving" (nextClick)="onSetEngineCategoryClick()"
+        (previewsClick)="onPreviews()" (changeSaving)="onChangeSaving($event)">
+      </app-door-engine-type>
+    </ng-template>
+    <ng-template appStep>
+      <app-door-automator [quoteForm]="quoteForm" [quoteItems]="quoteItems" [loading]="loading" [saving]="saving"
+        (nextClick)="onNextClick()" (previewsClick)="onPreviews()">
+      </app-door-automator>
+    </ng-template>
+    <ng-template appStep>
+      <app-door-porthole [quoteData]="quoteData" [quoteForm]="quoteForm" [quoteItems]="quoteItems"
+        [loggedUser]="loggedUser" [loading]="loading" [saving]="saving" (nextClick)="onNextClick()"
+        (previewsClick)="onPreviews()" (changeSaving)="onChangeSaving($event)">
+      </app-door-porthole>
+    </ng-template>
+    <ng-template appStep>
+      <app-door-paint [quoteData]="quoteData" [quoteForm]="quoteForm" [quoteItems]="quoteItems"
+        [loggedUser]="loggedUser" [loading]="loading" [saving]="saving" (nextClick)="onNextClick()"
+        (previewsClick)="onPreviews()" (changeSaving)="onChangeSaving($event)">
+      </app-door-paint>
+    </ng-template>
+    <ng-template appStep>
+      <div class="list-container">
+        <ion-list>
+          <ion-list-header>
+            <ion-spinner *ngIf="loading" name="circular" color="medium"></ion-spinner>
+            <ion-label *ngIf="!loading">Escolher Cliente</ion-label>
+          </ion-list-header>
+          <app-customer-select #customerSelector [placeholder]="'novo cliente'" [loggedUser]="loggedUser"
+            (customerChange)="onCustomerChange($event)">
+          </app-customer-select>
+        </ion-list>
+      </div>
+      <div class="form-container">
+        <app-customer-form #customerForm [loading]="loading" [addHeader]="false" [addButtons]="false"
+          (getForm)="getCustomerForm($event)">
+        </app-customer-form>
+      </div>
+      <div class="list-container">
+        <ion-list>
+          <ion-item>
+            <div class="buttons-container">
+              <ion-button type="button" shape="round" color="medium" [disabled]="saving || loading"
+                (click)="onPreviews()">
+                <ion-icon slot="start" name="arrow-back"></ion-icon>
+                <span>
+                  <ion-label>Voltar</ion-label>
+                </span>
+              </ion-button>
+              <ion-button type="button" shape="round" color="success" (click)="onSubmitCustomer()"
+                [disabled]="!customerFormIsValid() || saving">
+                <span>
+                  <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+                  <ion-label *ngIf="!saving">Continuar</ion-label>
+                </span>
+                <ion-icon slot="end" name="arrow-forward"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ng-template>
+    <ng-template appStep>
+      <app-material-list [loggedUser]="loggedUser" [quoteForm]="quoteForm" [quoteData]="quoteData"
+        [quoteItems]="quoteItems" [selectedCustomerData]="selectedCustomerData"
+        [doorProfileM2Weight]="doorProfileM2Weight" [loading]="loading" [saving]="saving" (previewsClick)="onPreviews()"
+        (changeSaving)="onChangeSaving($event)"></app-material-list>
+    </ng-template>
+  </app-steps>
+  <ion-fab *ngIf="showFloating" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="medium" [disabled]="saving" (click)="onPreviews()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab *ngIf="showGoToTop" vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button color="medium" (click)="goToTop()">
+      <ion-icon name="arrow-up"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab *ngIf="showFloating" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" [disabled]="saving || loading" (click)="onFabNextClick()">
+      <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+      <ion-icon *ngIf="!saving" name="arrow-forward"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab *ngIf="actualStep === 7" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" [disabled]="saving || loading" (click)="onOpenProductsModelClick()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <br />
+  <br />
+  <br />
+  <br />
+</ion-content>

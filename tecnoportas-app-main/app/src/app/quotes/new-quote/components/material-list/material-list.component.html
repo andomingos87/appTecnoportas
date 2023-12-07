@@ -1,0 +1,193 @@
+<div class="list-container">
+  <ion-list>
+    <ion-item>
+      <ion-text>Relação de Material para</ion-text>
+    </ion-item>
+    <ion-item-divider>Cliente</ion-item-divider>
+    <app-customer-details *ngIf="selectedCustomerData" [customer]="selectedCustomerData"
+      [buttons]="getCustomerButtons()">
+    </app-customer-details>
+    <ion-item-divider>Portão</ion-item-divider>
+    <ion-item-group>
+      <ion-item>
+        <ion-label>Quantidade: </ion-label>
+        <ion-label *ngIf="!updateDoorSettings" slot="end">{{ quoteForm.doors.value }}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="updateDoorSettings">
+        <ion-segment [formControl]="settingsForm.doors" [scrollable]="true">
+          <ion-segment-button *ngFor="let item of quoteDoors; let i = index" [value]="i + 1">
+            <ion-label>{{ i + 1 }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+      <ion-item>
+        <ion-label>Altura: </ion-label>
+        <ion-label *ngIf="!updateDoorSettings" slot="end">{{ quoteForm.height.value }}</ion-label>
+        <ion-input #iHeight *ngIf="updateDoorSettings" type="number" [formControl]="settingsForm.height"
+          placeholder="0,00" (ionInput)="onDecimalChange(iHeight)" [required]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Largura: </ion-label>
+        <ion-label *ngIf="!updateDoorSettings" slot="end">{{ quoteForm.width.value }}</ion-label>
+        <ion-input #iWidth *ngIf="updateDoorSettings" type="number" [formControl]="settingsForm.width"
+          placeholder="0,00" (ionInput)="onDecimalChange(iWidth)" [required]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>instalação: </ion-label>
+        <ion-label *ngIf="!updateDoorSettings" slot="end">{{ getTypeOfInstallName() }}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="updateDoorSettings">
+        <ion-segment [formControl]="settingsForm.typeOfInstall">
+          <ion-segment-button *ngFor="let item of quoteItems.installTypes" [value]="item.id">
+            <ion-label>{{ item.nome }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+      <ion-item>
+        <div class="buttons-container">
+          <ion-button *ngIf="updateDoorSettings" type="button" shape="round" color="medium"
+            [disabled]="saving || loading" (click)="onCancelUpdateDoorSettingsClick()">
+            <ion-icon slot="start" name="close-outline"></ion-icon>
+            <ion-label>Cancelar</ion-label>
+          </ion-button>
+          <ion-button [color]="updateDoorSettings ? 'warning' : 'tertiary'" shape="round"
+            [disabled]="!formIsValid() || saving || loading" (click)="onUpdateDoorSettingsClick()">
+            <ion-icon slot="start" [name]="updateDoorSettings ? 'checkmark-outline' : 'pencil'">
+            </ion-icon>
+            <span class="text-left">
+              <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+              <ion-label *ngIf="!saving && !updateDoorSettings">Alterar</ion-label>
+              <ion-label *ngIf="!saving && updateDoorSettings">Salvar</ion-label>
+            </span>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-divider>Produtos</ion-item-divider>
+    <ion-item *ngIf="loading">
+      <div class="text-center w-100p">
+        <ion-spinner name="circular" color="medium"></ion-spinner>
+      </div>
+    </ion-item>
+    <ion-item-group *ngFor="let product of finalProductList; let i = index">
+      <ion-item>
+        <ion-avatar slot="start" class="product-avatar">
+          <img [src]="product.imagem" />
+        </ion-avatar>
+        <ion-label text-wrap>
+          {{ product.valor_unitario === '0.00' ? product.nome : (getProductQuantity(product) + ' - ' +
+          product.nome) }}
+        </ion-label>
+        <ion-button slot="end" fill="clear" shape="round" (click)="onExpandItemClick(i)">
+          <ion-icon slot="icon-only" [name]="productsSettings[i].expand ? 'caret-up' : 'caret-down'">
+          </ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item *ngIf="productsSettings[i].expand && product.valor_unitario !== '0.00'">
+        <ion-button fill="clear" shape="round" slot="start" [disabled]="productsSettings[i].quantity <= 1"
+          (click)="onRemoveOne(product)" *ngIf="!productsSettings[i].blockEdit">
+          <ion-icon name="remove" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-label>
+          {{ getProductQuantity(product) }} {{ product.unNome || product.medida }}
+        </ion-label>
+        <ion-button fill="clear" shape="round" slot="end" (click)="onAddOne(product)" *ngIf="!productsSettings[i].blockEdit">
+          <ion-icon name="add" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item-group *ngIf="productsSettings[i].expand && product.valor_unitario !== '0.00'">
+        <ion-item>
+          <ion-label>Margem %</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-segment #segIncrement [scrollable]="true" [value]="0"
+            (ionChange)="onProductPriceIncrementChange(i, segIncrement.value)">
+            <ion-segment-button *ngFor="let item of getItemIncrementOptions()" [value]="item.value">
+              <ion-label>{{ item.label }}</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-item>
+      </ion-item-group>
+      <ion-item *ngIf="productsSettings[i].expand && product.valor_unitario === '0.00'">
+        <ion-label position="floating">Digite o Preço</ion-label>
+        <ion-input #iWidth type="number" placeholder="0,00" (ionInput)="onProductPriceChange(iWidth, product)"
+          [required]="true"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="productsSettings[i].expand && product.valor_unitario !== '0.00'">
+        <ion-label slot="start">Preço:</ion-label>
+        <ion-label class="text-right" text-wrap>R$: {{ getItemTotalPrice(product) }}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="productsSettings[i].expand">
+        <div class="buttons-container">
+          <ion-button type="button" shape="round" color="warning" (click)="onChangeProductClick(product)" *ngIf="!productsSettings[i].blockEdit">
+            <ion-icon slot="start" name="swap-horizontal-outline"></ion-icon>
+            <span>
+              <ion-label>Trocar</ion-label>
+            </span>
+          </ion-button>
+          <ion-button type="button" shape="round" color="danger" (click)="onDeleteProductClick(product)">
+            <ion-icon slot="start" name="trash"></ion-icon>
+            <span>
+              <ion-label>Remover</ion-label>
+            </span>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-item-group>
+    <ion-item [detail]="true" [button]="true" detail-icon="add-outline" (click)="onOpenProductsModelClick()">
+      <ion-label>Novo item</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Margem</ion-label>
+      <ion-select cancelText="Cancelar" [formControl]="quoteForm.finalPriceIncrement"
+        (ionChange)="onPriceIncrementChange()">
+        <ion-select-option *ngFor="let item of priceIncrementOptions" [value]="item.value">
+          {{ item.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider>Resumo</ion-item-divider>
+    <ion-item>
+      <ion-label slot="start">Valor Total</ion-label>
+      <ion-label text-wrap>
+        R$: {{ getProductsTotal() }}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <div class="buttons-container">
+        <ion-button type="button" shape="round" color="medium" [disabled]="saving || loading" (click)="onPreviews()">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+        <ion-button type="button" shape="round" size="large" color="success"
+          [disabled]="!finalProductList.length || saving" (click)="onFinishQuoteClick()">
+          <ion-icon slot="start" name="mail"></ion-icon>
+          <span class="text-left">
+            <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+            <ion-label *ngIf="!saving">Enviar</ion-label>
+            <ion-text class="finish-text" *ngIf="!saving">pro email do cliente</ion-text>
+          </span>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</div>
+
+<ion-modal #productsSelect>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Novo item</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeProductsModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <app-products-select [loggedUser]="loggedUser" [defaultCategory]="getCategoryByProductType(selectedProductType)"
+        [showCategories]="false" (productClick)="onAddProduct($event)"
+        [itemButtons]="productItemsButtons"></app-products-select>
+    </ion-content>
+  </ng-template>
+</ion-modal>

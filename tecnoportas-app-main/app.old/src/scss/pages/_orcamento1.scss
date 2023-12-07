@@ -1,0 +1,64 @@
+/* --- O R C A M E N T O --- */
+.section-orcamento1 {
+  margin-bottom: 1rem;
+  /* .etapa-nums { display: flex; justify-content: center; } */
+  .campo { margin-top: .5rem; border-bottom: 1px solid #3f439c; }
+  .etapa-nums { display: flex; justify-content: center; }
+  .opcoes-pessoa { display: flex; justify-content: space-between; width: 40%; }
+  .addCli {
+    background: $c-e-white;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 3rem;
+  }
+}
+
+/* --- F O R M  C O N F I G --- */
+.section-orcamento1 {
+  .formulario { background: $c-e-white; border-radius: 1rem; padding: 1rem; }
+  /* .etapa-nums li {
+    &:nth-child(-n+1) { background-color: #3f439c;
+      &:before { background-color: #3f439c; }
+    }
+  } */
+  .icon { width: 2rem; height: 1.7rem; }
+}
+
+/* --- F O R M U L A R I O --- */
+.section-orcamento1 {
+  .opcoes-pessoa { display: flex; justify-content: space-between; width: 40%; }
+  .box-input { margin: 1rem 0; }
+  .telefone { display: flex;
+    .flex1 { flex: 0.1; }
+    .flex2 { flex: 1; }
+  }
+}
+
+.section-orcamento1 {
+  //.botoes-form { display: flex; justify-content: space-around; margin-top: 2rem; }
+  .botoes-form {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    padding: 1rem;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: -1px 1px 10px 0px black;
+  }
+  .opcoes-pessoa {
+    .cad-title {
+      font-weight: 400;
+      color: black;
+      text-transform: capitalize;
+    }
+  }
+  .cad-title {
+    font-size: 1rem;
+  }
+  .input-default {
+    font-weight: 400;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="list-container">
+  <ion-list>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label>Tipo do motor *</ion-label>
+      </ion-list-header>
+      <ion-item *ngIf="loading">
+        <div class="text-center w-100p">
+          <ion-spinner name="circular" color="medium"></ion-spinner>
+        </div>
+      </ion-item>
+      <ion-radio-group [formControl]="quoteForm.engineCategory">
+        <ion-item *ngFor="let item of quoteItems.engineCategories">
+          <ion-avatar slot="start" class="product-avatar">
+            <img [src]="item.imagem" />
+          </ion-avatar>
+          <ion-label text-wrap>
+            <strong>{{ item.nome }}</strong>
+            <br />
+            {{ item.descricao }}
+          </ion-label>
+          <ion-radio slot="end" [value]="item.id"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item-group>
+    <ion-item>
+      <div class="buttons-container">
+        <ion-button type="button" shape="round" color="medium" [disabled]="saving" (click)="onPreviews()">
+          <ion-icon slot="start" name="arrow-back"></ion-icon>
+          <span>
+            <ion-label>Voltar</ion-label>
+          </span>
+        </ion-button>
+        <ion-button type="button" shape="round" color="success" [disabled]="!formIsValid() || saving || loading"
+          (click)="onCategoryEngineClick()">
+          <span>
+            <ion-spinner *ngIf="saving" name="circular" color="medium"></ion-spinner>
+            <ion-label *ngIf="!saving">Continuar</ion-label>
+          </span>
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</div>

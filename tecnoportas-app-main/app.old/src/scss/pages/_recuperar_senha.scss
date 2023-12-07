@@ -1,0 +1,46 @@
+/* --- L O G O --- */ 
+.section-recuperar {
+  .logo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img { width: 50%; }
+  }
+}
+
+/* --- F O R M U L Á R I O --- */ 
+.section-recuperar {
+  input { border-radius:  0 1rem 1rem 0;
+    &::placeholder { 
+      color: $c-e-gray; 
+      text-transform: none; 
+      font-weight: normal;
+      font-size: 1.2rem;
+    }
+  }
+  .btn-default { 
+    display: block; 
+    text-align: center;
+  }
+  .btn { width: 40%; }
+  .botao { 
+    display: flex; 
+    justify-content: space-between;
+  }
+}
+
+/* --- A J U S T E S   F O R M U L Á R I O --- */ 
+.section-recuperar {
+  width: 100%;
+  position: absolute;
+  top: 40%;
+  margin-top: -110px;
+  .iconInput { display: flex; justify-content: center; }
+  .icon { 
+    background-color: $c-p-sc; 
+    border-radius: 1rem 0 0 1rem; 
+    color: $c-p;
+  }
+  p { text-align: center; margin: 4rem 0 0 0;}
+}

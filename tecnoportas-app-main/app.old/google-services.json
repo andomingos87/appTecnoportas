@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1016461266954",
+    "firebase_url": "https://tecnoportas.firebaseio.com",
+    "project_id": "tecnoportas",
+    "storage_bucket": "tecnoportas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016461266954:android:a81dca7536f5a138238ff3",
+        "android_client_info": {
+          "package_name": "com.tecnoportas.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016461266954-8aia25vjc6lkq8jljst0k8rp2nuamu15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkmrxwFZF3G501QkvNPD1wOoNK3Qy8YrQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016461266954-8aia25vjc6lkq8jljst0k8rp2nuamu15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

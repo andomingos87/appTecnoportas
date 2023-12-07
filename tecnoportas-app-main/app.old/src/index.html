@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src * 'unsafe-inline'; media-src *; img-src * 'self' data: https://s-media-cache-ak0.pinimg.com;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <meta content="IE=edge" http-equiv="x-ua-compatible">
+    <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+
+    <title>Tecnoportas</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:500i,800i|Open+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- CSS Framework-->
+    <link href="css/imageviewer.css" type="text/css" rel="stylesheet">
+    <!-- CSS Global APP  -->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body id="body">
+    <div id="divApp">
+
+    </div>
+    <div id="ver-number"><p></p></div>
+    <div id="btOverlay" class="overlay"></div>
+    <div id="loader-final" class="is-loaded">
+        <img src="img/loader.svg">
+        <br>
+        <p>Carregando</p>
+        <buttom id="btLoaderCancel" class="btn btn-light mb-3">Cancelar</buttom>
+    </div>
+    <!-- cordova -->
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <!--App-->
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/imageviewer.js"></script>
+    <script type="text/javascript" src="js/jquery.mask.js"></script>
+    <script type="text/javascript" src="js/lib.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>

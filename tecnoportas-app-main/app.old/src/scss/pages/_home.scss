@@ -1,0 +1,45 @@
+body {
+  background-image: url("../img/fundo-tecnoportas.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-blend-mode: screen;
+}
+
+/* --- L O G O --- */
+.section-home {
+  .logo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > img { width: 40%; }
+  }
+}
+
+/* --- B O T Õ E S  P R I N C I P A I S --- */
+.section-home {
+  .items { display: flex; flex-direction: column; align-items: center; }
+  .botoes-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    border-bottom: .5 solid #3f439c52;
+    margin: 3rem 0 1rem 0;
+    padding-bottom: 1rem;
+  }
+}
+
+@media #{$device-g-md} {
+  .section-home {
+    .icon {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+    .btn {
+      font-size: 2rem;
+    }
+  }
+}

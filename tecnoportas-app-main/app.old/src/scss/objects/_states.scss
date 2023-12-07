@@ -1,0 +1,15 @@
+
+.status{
+  &-0{ color: #710000; }
+  &-1{ color: #c46800; }
+  &-2{ color: #007eff; }
+}
+
+#tdStatus{
+  background-image: url("../img/edit-icon.png");
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: center right;
+  padding: 0;
+  line-height: 3rem;
+}

@@ -1,0 +1,32 @@
+/* --- T O P O   --- */
+.section-addCli {
+  .addCli {
+    background: $c-e-white;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 3rem;
+  }
+  .logo { display: flex; justify-content: center;
+    .icon {  height: 6rem; width: 5rem; color: $c-p; display: flex; }
+  }
+}
+
+/* --- F O R M U L A R I O --- */
+.section-addCli {
+  .opcoes-pessoa { display: flex; justify-content: space-between; width: 40%; }
+  .box-input { margin: 1rem 0; }
+  .telefone { display: flex;
+    .flex1 { flex: 0.1; }
+    .flex2 { flex: 1; }
+  }
+}
+/* --- B O T Õ E S  --- */
+.section-addCli {
+  .btn-default.azul {
+    justify-content: center;
+  }
+  .botoes {
+    display: flex;
+    justify-content: center;
+  }
+}

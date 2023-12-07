@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/my-customers"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Cliente</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <div class="form-container">
+    <app-customer-form #form [loading]="customerData === undefined" [saving]="saving" (goBackClick)="onBackClick()"
+      (getForm)="getForm($event)" (submitForm)="onSubmit($event)"></app-customer-form>
+  </div>
+
+</ion-content>

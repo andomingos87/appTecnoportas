@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Meus Clientes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="list-container">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Lista de Clientes</ion-label>
+        <ion-button (click)="onNewCustomerClick()">Novo Cliente</ion-button>
+      </ion-list-header>
+      <ion-item>
+        <ion-label position="floating" color="medium">Procurar</ion-label>
+        <ion-input type="search" [formControl]="form.search" [clearInput]="true" (ionChange)="onSearchChange()">
+        </ion-input>
+      </ion-item>
+      <ion-item-divider>{{ searchTerm || 'Todos os Clientes' }}</ion-item-divider>
+      <div *ngIf="!customersList.length && !empty" class="loading-container">
+        <ion-spinner name="circular" color="medium"></ion-spinner>
+      </div>
+      <ion-item *ngIf="empty">
+        <ion-icon name="alert-circle" slot="start"></ion-icon>
+        <ion-label>Nenhum cliente encontrado</ion-label>
+      </ion-item>
+      <app-customer-details *ngFor="let customer of customersList; let i = index" [customer]="customer"
+        (itemClick)="onEditClick(customer)" [personTypeLabel]="false" [buttons]="getItemButtons(customer)">
+      </app-customer-details>
+    </ion-list>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary" (click)="onNewCustomerClick()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

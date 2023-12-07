@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText"defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sobre Nós</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-card>
+    <ion-img alt="Tecnoportas" src="/assets/img/logo.png"></ion-img>
+    <ion-card-header>
+      <ion-card-title>Sobre Nós</ion-card-title>
+      <ion-card-subtitle>Tecnoportas</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div *ngIf="!aboutHtml" class="loading-container">
+        <ion-spinner name="circular" color="medium"></ion-spinner>
+      </div>
+      <div [innerHTML]="aboutHtml"></div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

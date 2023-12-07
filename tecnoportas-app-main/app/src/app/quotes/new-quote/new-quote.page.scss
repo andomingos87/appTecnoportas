@@ -1,0 +1,33 @@
+.list-container {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: 100%;
+    max-width: 600px;
+
+    & ~ .list-container {
+        margin-top: -1px;
+        margin-bottom: 30px;
+    }
+}
+
+.form-container {
+    margin-top: -1px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.buttons-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,0 +1,46 @@
+<ion-item-group>
+  <ion-item>
+    <ion-avatar slot="start" (click)="onItemClick()">
+      <div class="text-center letters-avatar-container">
+        {{ (customer.tipo === 'f' ? customer.nome.substring(0, 1) + customer.sobrenome.substring(0, 1) :
+        customer.sobrenome).substring(0, 2).toUpperCase() }}
+      </div>
+    </ion-avatar>
+    <ion-label (click)="onItemClick()" text-wrap>
+      {{ customer.tipo === 'f' ? customer.nome + ' ' + customer.sobrenome : customer.sobrenome }}
+      <ion-note *ngIf="personTypeLabel">({{ customer.tipo === 'f' ? 'Pessoa' : 'Empresa' }})</ion-note>
+    </ion-label>
+    <ion-button slot="end" fill="clear" shape="round" (click)="onExpandClick()">
+      <ion-icon slot="icon-only" [name]="expand ? 'caret-up' : 'caret-down'"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item *ngIf="expand">
+    <ion-label text-wrap>{{ customer.tipo === 'f' ? customer.nome + ' ' + customer.sobrenome : customer.nome }}
+    </ion-label>
+    <ion-note slot="end">{{ customer.tipo === 'f' ? 'Pessoa' : 'Empresa' }}</ion-note>
+  </ion-item>
+  <ion-item *ngIf="expand">
+    <ion-icon name="call" slot="start"></ion-icon>
+    <ion-label>{{ customer.ddd + customer.numero }}</ion-label>
+  </ion-item>
+  <ion-item *ngIf="expand">
+    <ion-icon name="mail" slot="start"></ion-icon>
+    <ion-label text-wrap>{{ customer.email }}</ion-label>
+  </ion-item>
+  <ion-item *ngIf="expand">
+    <ion-icon name="earth" slot="start"></ion-icon>
+    <ion-label>{{ customer.cidade }}</ion-label>
+    <ion-label slot="end">{{ customer.uf }}</ion-label>
+  </ion-item>
+  <ion-item *ngIf="expand && buttons.length">
+    <div class="buttons-container">
+      <ion-button *ngFor="let button of currentButtons" type="button" shape="round" [color]="button.color"
+        (click)="button.handler()">
+        <ion-icon slot="start" [name]="button.icon"></ion-icon>
+        <span>
+          <ion-label>{{ button.label }}</ion-label>
+        </span>
+      </ion-button>
+    </div>
+  </ion-item>
+</ion-item-group>

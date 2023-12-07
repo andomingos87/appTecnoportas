@@ -1,0 +1,74 @@
+body{
+  &.is-active{
+    overflow: hidden;
+  }
+}
+
+/*Padrõess*/
+
+.imgsInferiorFinal{
+  -webkit-filter: none !important;
+  filter: none !important;
+}
+
+.fundoVerde{
+  background-color: $c-p-bt !important;
+  &::before{
+    background-color: $c-p-bt !important;
+  }
+}
+
+.seta-baixo{
+  line-height: 0;
+  display: block;
+}
+.seta-baixo:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid $c-e-white;
+}
+
+.back-bco{
+  background-color: $c-e-white;
+  color: $c-e-black;
+  .invalid-feedback{
+    color: $c-a-bt;
+  }
+}
+.back-azul {
+  background-color: $c-p;
+  color: $c-e-white;
+  .invalid-feedback{
+    color: $c-a-y;
+  }
+}
+.back-azclar{
+  background-color: $c-p-l;
+  color: $c-e-black;
+  .invalid-feedback{
+    color: $c-a-bt;
+  }
+}
+.back-branco {
+  position: relative;
+  width: 650px;
+  padding: 10px;
+  max-width: 100%;
+  display: inline-block;
+  background-color: $c-e-white;
+  color: $c-e-black;
+  border-radius: 5px;
+  .invalid-feedback{
+    color: $c-a-bt;
+  }
+}
+.bb-azul {
+  border-bottom: 1px solid $c-p-l;
+  margin: 20px 0px;
+}

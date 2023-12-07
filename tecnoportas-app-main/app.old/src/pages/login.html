@@ -1,0 +1,34 @@
+<section class="section-login">
+  <div class="container">
+		<div class="logo">
+			<img src="img/logo3.png" alt="">
+		</div>
+		<form id="formLogin" action="">
+			<div class="campos">
+				<div class="box-input mg -tp-lg">
+					<div class="iconInput">
+						<svg class="icon"><use xlink:href="icon.svg#icon-user"></use></svg>
+						<input type="text" name="username" class="cad-title -grey invalid-input input-default" placeholder="Usuário" >
+					</div>
+					<p class="invalid-feedback">Informe o usuário e senha</p>
+				</div>
+				<div class="box-input mg -tp-md">
+					<div class="iconInput">
+						<svg class="icon"><use xlink:href="icon.svg#icon-lock"></use></svg>
+						<input type="password" name="senha" class="cad-title -grey invalid-input input-default" placeholder="Senha" >
+						<button class="passLookup" style="display: none">
+								<svg class="icon -visible"><use xlink:href="icon.svg#icon-pass-visible"></use></svg>
+								<svg class="icon -hidden"><use xlink:href="icon.svg#icon-pass-hidden"></use></svg>
+						</button>
+					</div>
+					<p class="invalid-feedback">Usuário ou senha incorretos</p>
+
+				</div>
+			</div>
+			<div class="botao">
+				<button id="btSubmit" type="submit" class="btn btn-default azul mg -tp-md">	Entrar	</button>
+				<a class="link" href="#" id="lnkEsqueciSenha" >Esqueci minha Senha</a>
+			</div>
+		</form>
+  </div>
+</section>

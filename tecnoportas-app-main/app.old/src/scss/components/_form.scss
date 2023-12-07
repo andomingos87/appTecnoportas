@@ -1,0 +1,144 @@
+.input-group input, .form-group input, input.form-control {
+  border-radius: 30px !important;
+  border: 0px;
+  background-color: $c-p-b;
+}
+
+
+
+.input-group .input-group-prepend .input-group-text {
+  background-color: $c-e-white;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  width: 35px !important;
+}
+.input-group .input-group-prepend ~ input {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  width: calc(100% - 35px) !important;
+}
+.input-group-text img{
+  height: 16px;
+}
+form .btn {
+  width: 100%;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+}
+form .form-row {
+  margin: 0px !important;
+}
+form .col-auto {
+  width: 100%;
+  padding: 0px !important;
+}
+.input-group.is-invalid + .invalid-feedback{
+  display: block;
+}
+.is-invalid + .invalid-feedback{
+  display: block;
+}
+.input, .select, .textarea{
+  border-radius: 5px;
+  border: 1px solid $c-e-white;
+  padding: 0.2rem;
+}
+
+//States
+.input, .select, .textarea{
+  font-size: 1rem;
+  &:focus{
+    outline: $c-s-active;
+  }
+}
+
+//validations
+.box-input{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .invalid-feedback { display: none; color: $c-s-negative; }
+  &.is-invalid { margin-bottom: 0;
+    >.invalid-feedback{
+    -ms-flex-line-pack: center;
+    align-content: center;
+    display: block;
+    }
+  }
+}
+//TODO:adicionar ao
+
+.input-default{
+  border-style: none;
+  width: 100%;
+  color: $c-e-black;
+  border: none;
+  border-radius: 1rem;
+  background: $c-p-sc;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  &:focus {
+    outline-style: unset;
+  }
+}
+
+select#selStatus {
+  color: black;
+  height: 3rem;
+  border: none;
+  outline-style: none;
+}
+
+#tbTel {
+  input[name='ddd'] {
+      width: 46px !important;
+      margin-right: 4px;
+  }
+  input[name='numero'] {
+      width: calc(100% - 50px) !important;
+  }
+}
+
+.cad-title {
+  font-weight: 700;
+  // @media #{$device-g-md} {
+  //   font-size: 1.6rem;
+  // }
+  &.-grey {
+    color: $c-p-b;
+    font-weight: 700;
+  }
+  &.-small {
+
+    font-size: 1rem;
+  }
+  &.-upper {
+    text-transform: uppercase;
+  }
+  &.-center {
+    text-align: center;
+  }
+  &.-margin {
+    margin-bottom: 2rem;
+  }
+}
+
+//Buttons
+.botoes-form {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: $s-sm-sm;
+}
+
+
+
+
+
+
+
+//TODO: Validate input styles by type
+//TODO: Validate input styles by type
+

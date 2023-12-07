@@ -1,0 +1,65 @@
+<div class="list-container">
+  <ion-list>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label>Quantidade de portas *</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-segment [formControl]="quoteForm.doors" [scrollable]="true">
+          <ion-segment-button *ngFor="let item of quoteDoors; let i = index" [value]="i + 1">
+            <ion-label>{{ i + 1 }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label>Medidas *</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label position="floating">Largura (M) *</ion-label>
+        <ion-input #iWidth type="number" [formControl]="quoteForm.width" placeholder="0,00"
+          (ionInput)="onDecimalChange(iWidth)" [required]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Altura (M) *</ion-label>
+        <ion-input #iHeight type="number" [formControl]="quoteForm.height" placeholder="0,00"
+          (ionInput)="onDecimalChange(iHeight)" [required]="true"></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label>Tipo de instalação *</ion-label>
+      </ion-list-header>
+      <ion-item *ngIf="loading">
+        <div class="text-center w-100p">
+          <ion-spinner name="circular" color="medium"></ion-spinner>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-segment [formControl]="quoteForm.typeOfInstall">
+          <ion-segment-button *ngFor="let item of quoteItems.installTypes" [value]="item.id">
+            <ion-label>{{ item.nome }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+    </ion-item-group>
+    <ion-item>
+      <div class="buttons-container">
+        <ion-button type="button" shape="round" color="medium" [disabled]="saving" (click)="onPreviews()">
+          <ion-icon slot="start" name="arrow-back"></ion-icon>
+          <span>
+            <ion-label>Voltar</ion-label>
+          </span>
+        </ion-button>
+        <ion-button type="button" shape="round" color="success" [disabled]="!formIsValid() || loading || saving"
+          (click)="onNextClick()">
+          <span>
+            <ion-label>Continuar</ion-label>
+          </span>
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</div>

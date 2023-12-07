@@ -1,0 +1,28 @@
+.section-cadastro {
+  margin: 0 auto;
+  max-width: 40rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  h3 { margin-bottom: 0;}
+  .campo-duplo { display: flex; margin-top: .5rem; }
+  .campo { margin-top: 0.5rem; }
+  .cnpj { display: none; }
+  .form-cadastro {
+    background: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  .campo-um { 
+    display: flex;
+    flex-direction: column;
+    &:first-child { margin-right: 1rem; }
+  }
+  .botoes-form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+  }
+}
+

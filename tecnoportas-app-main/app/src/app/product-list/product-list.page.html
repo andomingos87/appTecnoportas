@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Produtos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/home">
+        <ion-img class="round-button-image" src="/assets/img/tecnoportas.png"></ion-img>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <app-products-select [loggedUser]="loggedUser" [headerButton]="headerButton" [itemButtons]="itemButtons"
+    (productClick)="onDetailsClick($event)"></app-products-select>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary" (click)="onViewCartClick()">
+      <ion-icon name="cart"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-modal #productDetails>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>{{ selectedProduct?.nome }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeDetailsModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <app-product-details [selectedProduct]="selectedProduct" (addToCart)="addToCart($event.product, $event.quantity)"
+        (closeClick)="closeDetailsModal()"></app-product-details>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal #cart>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button shape="round" fill="clear">
+            <ion-icon name="cart" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title>Carrinho</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeCartModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="background">
+      <app-product-cart [loggedUser]="loggedUser" [selectedCustomerData]="cartSelectedCustomerData"
+        [products]="cartProducts" [productsSettings]="cartProductsSettings" (closeClick)="closeCartModal()"
+        (selectCustomer)="onCartSelectCustomer($event)" (itemDetails)="onDetailsClick($event)"
+        (expandItem)="onExpandCartItemClick($event)" (addOneToCart)="addToCart($event, 1, false)"
+        (removeOneToCart)="removeOneFromCart($event)" (itemPriceChange)="onCartProductPriceChange($event)"
+        (itemPriceIncrementChange)="onCartProductPriceIncrementChange($event)"
+        (priceIncrementChange)="onCartPriceIncrementChange($event)"
+        (removeItem)="removeFromCart($event)"></app-product-cart>
+    </ion-content>
+  </ng-template>
+</ion-modal>

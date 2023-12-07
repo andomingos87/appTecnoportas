@@ -1,0 +1,72 @@
+<div class="list-container">
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Lista de Produtos</ion-label>
+      <ion-button *ngIf="headerButton" (click)="headerButton.handler(true)">
+        {{ headerButton.label }}
+      </ion-button>
+    </ion-list-header>
+    <ion-item *ngIf="showSearch">
+      <ion-label position="floating" color="medium">Procurar</ion-label>
+      <ion-input type="search" [formControl]="form.search" [clearInput]="true" (ionChange)="onSearchChange()">
+      </ion-input>
+    </ion-item>
+    <ion-item *ngIf="showCategories">
+      <ion-label position="floating" color="medium">Categoria</ion-label>
+      <ion-select cancelText="Cancelar" [formControl]="form.category" (ngModelChange)="onCategoryChange()">
+        <ion-select-option *ngFor="let category of allCategories" [value]="category">{{ category }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider>{{ searchTerm || 'Todos os Produtos' }}</ion-item-divider>
+    <div *ngIf="!products.length && !empty" class="loading-container">
+      <ion-spinner name="circular" color="medium"></ion-spinner>
+    </div>
+    <ion-item *ngIf="empty">
+      <ion-icon name="alert-circle" slot="start"></ion-icon>
+      <ion-label>Nenhum produto encontrado</ion-label>
+    </ion-item>
+    <ion-item-group *ngFor="let product of products; let i = index">
+      <ion-item>
+        <ion-avatar slot="start" (click)="onProductClick(product)">
+          <img [src]="product.imagem" />
+        </ion-avatar>
+        <ion-label (click)="onProductClick(product)" text-wrap>{{ product.nome }}</ion-label>
+        <ion-button slot="end" fill="clear" shape="round" (click)="onExpandClick(i)">
+          <ion-icon slot="icon-only" [name]="productsSettings[i].expand ? 'caret-up' : 'caret-down'"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item *ngIf="productsSettings[i].expand">
+        <ion-text slot="start">
+          <strong>Tipo</strong>
+        </ion-text>
+        <ion-text slot="end">
+          <strong>Preço</strong>
+        </ion-text>
+      </ion-item>
+      <ion-item *ngIf="productsSettings[i].expand">
+        <ion-label slot="start">{{ product.unNome }}</ion-label>
+        <ion-label slot="end">R$: {{ product.valor_unitario }}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="productsSettings[i].expand && itemButtons.length">
+        <div class="buttons-container">
+          <ion-button *ngFor="let button of itemButtons" type="button" shape="round" [color]="button.color || 'medium'"
+            (click)="button.handler(product)">
+            <ion-icon *ngIf="button.icon" slot="start" [name]="button.icon"></ion-icon>
+            <span>
+              <ion-label>
+                {{ button.label }}
+              </ion-label>
+            </span>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</div>
+
+<ion-infinite-scroll *ngIf="!form.category.value || form.category.value === 'Tudo'" threshold="100px"
+  (ionInfinite)="onLoadMoreData($event)">
+  <ion-infinite-scroll-content loadingSpinner="circular" loadingText="Procurando mais produtos...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>

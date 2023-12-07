@@ -1,0 +1,40 @@
+/* --- T O P O   --- */
+.section-meuCli {
+  .meusCli {
+    background: $c-e-white;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 3rem;
+  }
+  .logo { display: flex; justify-content: center;
+    .icon {  height: 6rem; width: 5rem; color: $c-p; display: flex; }
+  }
+  .busca {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 1.5rem;
+    .cad-title { margin-bottom: 0; }
+  }
+  .novocli {
+    border-bottom: 1px solid #cecece;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+  }
+}
+
+/* --- L I N H A S  D O S  O R Ç A M E N T O S  --- */
+.section-meuCli {
+  .ul-linha { list-style: none; border: 1px solid $c-p-sc; padding: 1rem; }
+  .col-linha { padding: 0; font-weight: 900; }
+  .-tel { font-weight: 400; color:black; }
+  .alinhar { display: flex; justify-content: space-between; }
+}
+
+/* --- B O T Õ E S  --- */
+.section-meuCli {
+  .btn { color: $c-e-white; }
+  .-botoes { margin-top: 1rem; }
+  .btn-danger { background-color: $c-s-negative; }
+}

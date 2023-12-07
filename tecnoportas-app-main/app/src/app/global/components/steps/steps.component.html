@@ -1,0 +1,12 @@
+<ul class="step-numbers-container">
+  <li *ngFor="let item of stepNumbers; let i = index" [ngClass]="{ active: item.active, finished: item.finished }">
+    {{ i + 1 }}
+  </li>
+</ul>
+<swiper #swiper [config]="config" (slideChange)="onChange($event)">
+  <ng-template swiperSlide *ngFor="let step of stepsDirs">
+    <div class="step-item">
+      <ng-template [ngTemplateOutlet]="step.templateRef"></ng-template>
+    </div>
+  </ng-template>
+</swiper>
