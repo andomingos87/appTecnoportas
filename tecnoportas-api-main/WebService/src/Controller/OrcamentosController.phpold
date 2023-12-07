@@ -1,0 +1,799 @@
+<?php
+namespace App\Controller;
+
+class OrcamentosController extends AppController
+{
+    public function initialize()
+    {
+        parent::initialize();
+
+        if (!$this->user) {
+            $this->redireciona('login');
+        }
+        $this->pageTitle = "Orçamentos";
+        $this->pagRef[0] = "orcamentos";
+        $this->set('ref', $this->pagRef);
+        $this->set('thisUser', $this->user);
+    }
+    public function index()
+    {
+        if ($this->user[0]['acesso'] == 2) {
+            $res = $this->connection->newQuery()
+                ->select('orcamentos.id, orcamentos.dt_cadastro, status, valor_total, pessoas.nome, sobrenome, pessoas.tipo, usuarios.acesso as acesso')
+                ->from('orcamentos')
+                ->join(
+                    [
+                        'table' => 'orcamento_pessoas',
+                        'type' => 'LEFT',
+                        'conditions' => 'orcamento_pessoas.orcamento_id = orcamentos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'serralheiro_vendedores',
+                        'type' => 'LEFT',
+                        'conditions' => 'serralheiro_vendedores.serralheiro_id = orcamento_pessoas.serralheiro_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'pessoas',
+                        'type' => 'LEFT',
+                        'conditions' => 'pessoas.id = cliente_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'usuarios',
+                        'type' => 'LEFT',
+                        'conditions' => 'usuarios.pessoa_id = cliente_id'
+                    ]
+                )
+                ->where('serralheiro_vendedores.vendedor_id = ' . $this->user[0]['pessoa_id'])
+                ->execute()
+                ->fetchAll('assoc');
+
+            $this->set('orcamentos', $res);
+            $this->set('title', $this->pageTitle);
+
+            $this->addTableClass();
+        } else {
+
+            $serralheiro_id = $this->request->getData('serralheiro_id');
+            if (empty($serralheiro_id)) {
+                $serralheiro_id = $this->request->getQuery('sid');
+            }
+
+            $res = $this->connection->newQuery()
+                ->select('orcamentos.id, ps.nome as revendedor, orcamentos.dt_cadastro, status, valor_total, pessoas.nome, pessoas.sobrenome, pessoas.tipo, usuarios.acesso as acesso')
+                ->from('orcamentos')
+                ->join(
+                    [
+                        'table' => 'orcamento_pessoas',
+                        'type' => 'LEFT',
+                        'conditions' => 'orcamento_id = orcamentos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'pessoas',
+                        'type' => 'LEFT',
+                        'conditions' => 'pessoas.id = cliente_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'pessoas ps',
+                        'type' => 'LEFT',
+                        'conditions' => 'ps.id = serralheiro_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'usuarios',
+                        'type' => 'LEFT',
+                        'conditions' => 'usuarios.pessoa_id = cliente_id'
+                    ]
+                    );
+            if (!empty($serralheiro_id)) {
+                $res = $res->where('orcamento_pessoas.serralheiro_id = ' . $serralheiro_id);
+            }
+            $res = $res->order('orcamentos.dt_cadastro desc')
+                ->execute()
+                ->fetchAll('assoc');
+
+            if ($this->retorno == 'json') {
+                echo json_encode($res);
+                exit;
+            } else {
+                $this->set('orcamentos', $res);
+                $this->set('title', $this->pageTitle);
+
+                $this->addTableClass();
+            }
+        }
+    }
+
+    public function novo(){
+        $serralheiro_id = $this->request->getData('serralheiro_id');
+        $cliente_id = $this->request->getData('cliente_id');
+        $orc = $this->request->getData('orc');
+
+        if (!empty($serralheiro_id) && !empty($cliente_id) && !empty($orc)) {
+            $valores = json_decode($orc['valores'], true);
+            $quantidades = json_decode($orc['quantidades'], true);
+            $acrescimos = json_decode($orc['acrescimos'], true);
+
+            $arrayOrcamento = array(
+                'valor_total' => $orc['valor_total'],
+                'ip_atualizado' => $this->userIP()
+            );
+            $res = $this->connection->insert('orcamentos', $arrayOrcamento);
+            $orc_id = $res->lastInsertId('orcamentos');
+
+            if (isset($orc['portas'])) {
+                $arrayPortao = array(
+                    'orcamento_id' => $orc_id,
+                    'portas' => $orc['portas'],
+                    'altura' => $orc['altura'],
+                    'largura' => $orc['largura'],
+                    'tpi_id' => $orc['tpi']
+                );
+                $this->connection->insert('orcamento_portao', $arrayPortao);
+            }
+
+            $arrayPessoas = array(
+                'orcamento_id' => $orc_id,
+                'cliente_id' => $cliente_id,
+                'serralheiro_id' => $serralheiro_id
+            );
+            $this->connection->insert('orcamento_pessoas', $arrayPessoas);
+
+            if (!empty($orc['perfil'])) {
+                $res = $this->connection->newQuery()
+                    ->select('produto_id')
+                    ->from('perfis')
+                    ->where('id = ' . $orc['perfil'])
+                    ->execute()
+                    ->fetchAll('assoc');
+
+                $acrescimo = 0;
+                if (isset($acrescimos['perfil'])) {
+                    $acrescimo = $acrescimos['perfil'];
+                }
+
+                $this->connection->insert('orcamento_produto', ['produto_id' => $res[0]['produto_id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['perfil'], 'quantidade' => $quantidades['perfil'], 'acrescimo' => $acrescimo]);
+            }
+            if (!empty($orc['motor'])) {
+                $res = $this->connection->newQuery()
+                    ->select('produto_id')
+                    ->from('motores')
+                    ->where('id = ' . $orc['motor'])
+                    ->execute()
+                    ->fetchAll('assoc');
+
+                $acrescimo = 0;
+                if (isset($acrescimos['motor'])) {
+                    $acrescimo = $acrescimos['motor'];
+                }
+
+                $this->connection->insert('orcamento_produto', ['produto_id' => $res[0]['produto_id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['motor'], 'quantidade' => $orc['portas'], 'acrescimo' => $acrescimo]);
+            }
+            if (!empty($orc['testeira'])) {
+                $res = $this->connection->newQuery()
+                    ->select('produto_id')
+                    ->from('testeiras')
+                    ->where('id = ' . $orc['testeira'])
+                    ->execute()
+                    ->fetchAll('assoc');
+
+                $acrescimo = 0;
+                if (isset($acrescimos['testeira'])) {
+                    $acrescimo = $acrescimos['testeira'];
+                }
+
+                $this->connection->insert('orcamento_produto', ['produto_id' => $res[0]['produto_id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['testeira'], 'quantidade' => $orc['portas'], 'acrescimo' => $acrescimo]);
+            }
+            if (isset($orc['fita'])) {
+                if (!empty($orc['fita'])) {
+                    $res = $this->connection->newQuery()
+                        ->select('produto_id')
+                        ->from('fitaPVC')
+                        ->where('id = ' . $orc['fita'])
+                        ->execute()
+                        ->fetchAll('assoc');
+
+                    $acrescimo = 0;
+                    if (isset($acrescimos['fita'])) {
+                        $acrescimo = $acrescimos['fita'];
+                    }
+
+                    $this->connection->insert('orcamento_produto', ['produto_id' => $res[0]['produto_id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['fita'], 'quantidade' => $orc['portas'], 'acrescimo' => $acrescimo]);
+                }
+            }
+
+            if (!empty($orc['automatizador'])) {
+                $res = $this->connection->newQuery()
+                    ->select('produto_id')
+                    ->from('automatizadores')
+                    ->where('id = ' . $orc['automatizador'])
+                    ->execute()
+                    ->fetchAll('assoc');
+
+                $acrescimo = 0;
+                if (isset($acrescimos['automatizador'])) {
+                    $acrescimo = $acrescimos['automatizador'];
+                }
+
+                $this->connection->insert('orcamento_produto', ['produto_id' => $res[0]['produto_id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['automatizador'], 'quantidade' => $orc['portas'], 'acrescimo' => $acrescimo]);
+            }
+            if (isset($orc['entrada'])) {
+                if (!empty($orc['entrada'])) {
+                    $res = $this->connection->newQuery()
+                        ->select('produto_id')
+                        ->from('entradas')
+                        ->where('id = ' . $orc['entrada'])
+                        ->execute()
+                        ->fetchAll('assoc');
+
+                    $acrescimo = 0;
+                    if (isset($acrescimos['entrada'])) {
+                        $acrescimo = $acrescimos['entrada'];
+                    }
+
+                    $this->connection->insert('orcamento_produto', ['produto_id' => $res[0]['produto_id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['entrada'], 'quantidade' => $orc['portas'], 'acrescimo' => $acrescimo]);
+                }
+            }
+            if (isset($orc['pintura'])) {
+                if (!empty($orc['pintura'])) {
+                    $res = $this->connection->newQuery()
+                        ->select('produto_id')
+                        ->from('pinturas')
+                        ->where('id = ' . $orc['pintura'])
+                        ->execute()
+                        ->fetchAll('assoc');
+
+                    $acrescimo = 0;
+                    if (isset($acrescimos['pintura'])) {
+                        $acrescimo = $acrescimos['pintura'];
+                    }
+
+                    $this->connection->insert('orcamento_produto', ['produto_id' => $res[0]['produto_id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['pintura'], 'quantidade' => $quantidades['pintura'], 'acrescimo' => $acrescimo]);
+                }
+            }
+            if (isset($orc['opcionais'])) {
+                if (!empty($orc['opcionais'])) {
+                    $opcs = json_decode($orc['opcionais'], true);
+                    foreach ($opcs as $opc) {
+                        $opcQuant = isset($quantidades['opcionais'][$opc['id']]) ? $quantidades['opcionais'][$opc['id']] : 1;
+
+                        $acrescimo = 0;
+                        if (isset($acrescimos['opcionais'][$opc['id']])) {
+                            $acrescimo = $acrescimos['opcionais'][$opc['id']];
+                        }
+
+                        $this->connection->insert('orcamento_produto', ['produto_id' => $opc['id'], 'orcamento_id' => $orc_id, 'preco_unitario' => $valores['opcionais'][$opc['id']], 'quantidade' => $opcQuant, 'acrescimo' => $acrescimo]);
+                    }
+                }
+            }
+            if ($this->retorno == 'json') {
+                $res = $this->connection->newQuery()
+                    ->select("id, dt_cadastro, ocorrencias, status, valor_total")
+                    ->from('orcamentos')
+                    ->where("id = $orc_id")
+                    ->execute()
+                    ->fetchAll('assoc');
+
+                echo json_encode(array('orcamento_data' => $res[0]));
+                exit;
+            }
+        }           
+            echo "Faltam Dados!<br/>Causa do erro: Pode ter ocorrido um problema no envio das seguintes informações:<br/>- Dados do Revendedor<br/>- Dados do Cliente<br/>- Dados do Orçamento<br/>Se o problema persistir por favor entre em contato com os administradores!";
+            exit;
+    }
+    public function abrir()
+    {
+        $id = $this->request->getData('orcamento_id');
+        if (empty($id)) {
+            $id = $this->request->getQuery('oid');
+        }
+
+        $orc = $this->connection->newQuery()
+            ->select('atributos.nome as is_dentro_vao, orcamento_portao.tpi_id, orcamentos.id, orcamentos.dt_cadastro, pdf, portas, altura, largura, tpi_id, ocorrencias, status, valor_total, orcamentos.dt_atualizado, cliente.id as cli_id, cliente.nome as cli_nome, cliente.sobrenome as cli_snome, cliente.tipo as cli_tipo, cliente.dt_cadastro as cli_cadastro, serralheiro.id as se_id, serralheiro.nome as se_nome, serralheiro.sobrenome as se_snome, serralheiro.tipo as se_tipo, serralheiro.dt_cadastro as se_cadastro')
+            ->from('orcamentos')
+            ->join(
+                [
+                    'table' => 'orcamento_portao',
+                    'type' => 'LEFT',
+                    'conditions' => 'orcamento_portao.orcamento_id = orcamentos.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'orcamento_pessoas',
+                    'type' => 'LEFT',
+                    'conditions' => 'orcamento_pessoas.orcamento_id = orcamentos.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'pessoas as cliente',
+                    'type' => 'LEFT',
+                    'conditions' => 'cliente.id = orcamento_pessoas.cliente_id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'serralheiro_clientes',
+                    'type' => 'LEFT',
+                    'conditions' => 'serralheiro_clientes.cliente_id = cliente.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'pessoas as serralheiro',
+                    'type' => 'LEFT',
+                    'conditions' => 'serralheiro.id = orcamento_pessoas.serralheiro_id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'atributos',
+                    'type' => 'LEFT',
+                    'conditions' => 'atributos.id = orcamento_portao.tpi_id'
+                ]
+            )
+            ->where('orcamentos.id = ' . $id)
+            ->execute()
+            ->fetchAll('assoc');
+
+        if (count($orc) > 0) {
+
+            $entrd = $this->connection->newQuery()
+
+                ->select('entradas.id, produtos.codigo, acrescimo, atributos.nome, descricao, produtos.imagem, preco_unitario, pos_id')
+                ->from('orcamento_produto')
+                ->join(
+                    [
+                        'table' => 'produtos',
+                        'type' => 'LEFT',
+                        'conditions' => 'produtos.id = produto_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'entradas',
+                        'type' => 'LEFT',
+                        'conditions' => 'entradas.produto_id = produtos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'atributos',
+                        'type' => 'LEFT',
+                        'conditions' => 'atributos.id = entradas.pos_id'
+                    ]
+                )
+                ->where('orcamento_id = ' . $id . ' and atributos.tipo = "pos"')
+                ->execute()
+                ->fetchAll('assoc');
+
+            $prods = $this->connection->newQuery()
+                ->select('unidades_medida.id, unidades_medida.nome as tipo_medida, produtos.id, produtos.codigo, acrescimo, quantidade, tipo, produtos.nome, motores.categoria_id, catmotores.imagem as mto_img, catmotores.nome as cat_nome, peso_m2, produtos.descricao, produtos.imagem, preco_unitario, perfis.id as prf_id, motores.id as mto_id, automatizadores.id as aut_id, pinturas.id as ptr_id')
+                ->from('orcamento_produto')
+                ->join(
+                    [
+                        'table' => 'produtos',
+                        'type' => 'LEFT',
+                        'conditions' => 'produtos.id = produto_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'unidades_medida',
+                        'type' => 'LEFT',
+                        'conditions' => 'unidades_medida.id = produtos.unidade_medida_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'perfis',
+                        'type' => 'LEFT',
+                        'conditions' => 'perfis.produto_id = produtos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'pinturas',
+                        'type' => 'LEFT',
+                        'conditions' => 'pinturas.produto_id = produtos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'motores',
+                        'type' => 'LEFT',
+                        'conditions' => 'motores.produto_id = produtos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'catmotores',
+                        'type' => 'LEFT',
+                        'conditions' => 'motores.categoria_id = catmotores.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'automatizadores',
+                        'type' => 'LEFT',
+                        'conditions' => 'automatizadores.produto_id = produtos.id'
+                    ]
+                )
+                ->where('orcamento_id = ' . $id)
+                ->execute()
+                ->fetchAll('assoc');
+
+            $altStatus = $this->request->getData('status');
+            if (!empty($altStatus) || $altStatus === "0") {
+                if ($orc[0]['status'] != 2 || $this->user[0]['acesso'] == 1) {
+                    $this->connection->update('orcamentos', ['status' => $altStatus], ["id" => $id]);
+                    if ($this->retorno == "json") {
+                        echo json_encode(array('msg' => "Status alterado", 'AltStatus' => 1));
+                        exit;
+                    }
+                    $this->redireciona('orcamentos/abrir?oid=' . $id . '#s' . $altStatus);
+                } else {
+                    if ($this->retorno == "json") {
+                        echo json_encode(array('msg' => "Não é possível mudar o status após o orçamento ser aprovado", 'status' => 2));
+                        exit;
+                    }
+                    $this->setError(0, "Não é possível mudar o status após o orçamento ser aprovado! ['Acesso = " . $this->user[0]['acesso'] . "']", false, true);
+                    $this->redireciona('orcamentos');
+                }
+            }
+            $altOcorrencias = $this->request->getData('ocorrencias');
+            if (!empty($altOcorrencias)) {
+                $this->connection->update('orcamentos', ['ocorrencias' => $altOcorrencias], ["id" => $id]);
+                $this->redireciona('orcamentos/abrir?oid=' . $id . '#' . $altOcorrencias);
+            }
+
+            if ($this->retorno == 'json') {
+                echo json_encode(array('orcamento' => $orc[0], 'entradas' => $entrd, 'produtos' => $prods));
+                exit;
+            } else {
+                $this->pageTitle = "Detalhes do Orçamento " . $orc[0]['id'];
+                $this->set('orcamento', $orc[0]);
+                $this->set('produtos', $prods);
+                $this->set('title', $this->pageTitle);
+
+                $this->addTableClass();
+            }
+        } else {
+            $this->setError(0, "Orçamento não encontrado!", false, true);
+            $this->redireciona('orcamentos');
+        }
+    }
+    public function enviarEmail()
+    {
+        $orcamento_id = $this->request->getQuery('oid');
+        $altStatus = $this->request->getQuery('altStatus');
+        $upPdf = $this->request->getData('pdf');
+            $orc = $this->connection->newQuery()
+                ->select('orcamentos.id, orcamentos.dt_cadastro, pdf, portas, altura, largura, tpi_id, ocorrencias, status, valor_total, orcamentos.dt_atualizado, cliente.id as cli_id, cliente.nome as cli_nome, cliente.sobrenome as cli_snome, cliente.tipo as cli_tipo, cliente.dt_cadastro as cli_cadastro, em_cli.email as cli_email, serralheiro.id as se_id, serralheiro.nome as se_nome, serralheiro.sobrenome as se_snome, serralheiro.tipo as se_tipo, serralheiro.dt_cadastro as se_cadastro, serralheiro.foto as se_foto, em_ser.email as se_email, vp.id as ven_id, vp.nome as ven_nome, vp.sobrenome as ven_snome, v_email.email as ven_email')
+                ->from('orcamentos')
+                ->join(
+                    [
+                        'table' => 'orcamento_portao',
+                        'type' => 'LEFT',
+                        'conditions' => 'orcamento_portao.orcamento_id = orcamentos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'orcamento_pessoas',
+                        'type' => 'LEFT',
+                        'conditions' => 'orcamento_pessoas.orcamento_id = orcamentos.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'pessoas as cliente',
+                        'type' => 'LEFT',
+                        'conditions' => 'cliente.id = orcamento_pessoas.cliente_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'emails as em_cli',
+                        'type' => 'LEFT',
+                        'conditions' => 'em_cli.pessoa_id = cliente.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'serralheiro_clientes',
+                        'type' => 'LEFT',
+                        'conditions' => 'serralheiro_clientes.cliente_id = cliente.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'pessoas as serralheiro',
+                        'type' => 'LEFT',
+                        'conditions' => 'serralheiro.id = orcamento_pessoas.serralheiro_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'emails as em_ser',
+                        'type' => 'LEFT',
+                        'conditions' => 'em_ser.pessoa_id = serralheiro.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'serralheiro_vendedores',
+                        'type' => 'LEFT',
+                        'conditions' => 'serralheiro_vendedores.serralheiro_id = serralheiro.id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'pessoas as vp',
+                        'type' => 'LEFT',
+                        'conditions' => 'vp.id = serralheiro_vendedores.vendedor_id'
+                    ]
+                )
+                ->join(
+                    [
+                        'table' => 'emails as v_email',
+                        'type' => 'LEFT',
+                        'conditions' => 'v_email.pessoa_id = vp.id'
+                    ]
+                )
+                ->where('orcamentos.id = ' . $orcamento_id)
+                ->execute()
+                ->fetchAll('assoc');
+
+            $pdfPath = '../data_uploads/' . $upPdf;
+
+            $se_nome = $orc[0]['se_nome'];
+            //$se_email = $orc[0]['se_email'];
+            $configs = $this->getConfiguracoes();
+
+            $tipo = !empty($altStatus) ? "Vendedor" : "Cliente";
+            $se_email = $configs['remetente'];
+            $se_foto = $this->getLink(!empty($orc[0]['se_foto']) ? "files?name=" . $orc[0]['se_foto'] : "images/logo2.png");
+            $cli_email = !empty($altStatus) ? $orc[0]['ven_email'] : $orc[0]['cli_email'];
+            $ct = $orc[0]['cli_tipo'];
+            $cli_nome = !empty($altStatus) ? $orc[0]['ven_nome'] . " " . $orc[0]['ven_snome'] : ($ct == "F" ? $orc[0]['cli_nome'] . ' ' . $orc[0]['cli_snome'] : $orc[0]['cli_nome']);
+            $dt = date_format(date_create($orc[0]['dt_cadastro']), 'd/m/Y');
+            if (!empty($cli_email)) {
+                $remDados = null;
+                if (!empty($se_email)) {
+                    $remDados = array($se_email, $se_nome);
+                }
+                if (empty($altStatus)) {
+                    $mensagem = "<h3>Olá $cli_nome, tudo bem?</h3><br/>";
+                    $mensagem .= "<p>Segue em anexo um documento PDF com os dados do seu orçamento, realizado no dia <b>$dt</b></p><br/><br/:";
+                    $mensagem .= "<p><h3><b>$se_nome</b></h3><a href='mailto:$se_email'>$se_email</a></p><br/><img src='$se_foto' alt='$se_nome'/>";
+                } else {
+                    $mensagem = "<h3>Olá $cli_nome, tudo bem?</h3><br/>";
+                    $mensagem .= "<p>Um novo orçamento foi aprovado pelo serralheiro: $se_nome, realizado no dia <b>$dt</b></p><br/><br/:";
+                    $mensagem .= "<p>Segue em anexo um documento PDF com os dados do orçamento</p><br/><br/:";
+                    $mensagem .= "<p><h3><b>$se_nome</b></h3><a href='mailto:$se_email'>$se_email</a></p><br/><img src='$se_foto' alt='$se_nome'/>";
+                }
+                $arrayEmail = array(
+                    'remetente' => $remDados,
+                    'destinatario' => $cli_email,
+                    'assunto' => !empty($altStatus) ? 'Novo orçamento aprovado - ' . $se_nome : 'Seu Orçamento do dia ' . $dt . ' - ' . $se_nome,
+                    'anexos' => array('orcamento' . $orcamento_id . '.pdf' => $pdfPath),
+                    'mensagem' => $mensagem
+                );
+                $resu = array(
+                    'enviado' => false,
+                    'adm' => false
+                );
+
+                $resu["enviado"] = $this->enviaEmail($arrayEmail);
+
+                if (empty($altStatus)) {
+
+                    $arrayEmail['destinatario'] = $configs['destinatario'];
+                    $arrayEmail['assunto'] = "Novo Orçamento - Tecnoportas";
+                    $mensagem = "<h3>Um Novo Orçamento Foi Realizado</h3><br/>";
+                    $mensagem .= "<p>O Serralheiro <b>$se_nome</b> acabou de fazer um orçamento para <b>$cli_nome</b></p>";
+                    $mensagem .= "<p>Segue em anexo um documento PDF com os dados do orçamento, realizado no dia <b>$dt</b></p><br/><br/:";
+                    $mensagem .= "<p><h3><b>$se_nome</b></h3><a href='mailto:$se_email'>$se_email</a></p><br/><img src='$se_foto' alt='$se_nome'/>";
+                    $arrayEmail['mensagem'] = $mensagem;
+
+                    $resu["adm"] = $this->enviaEmail($arrayEmail);
+                }
+
+                echo json_encode($resu);
+            } else {
+                echo json_encode(array("error" => "O $tipo não possui e-mail"));
+            }
+       
+        exit;
+    }
+    public function upPdf(){
+        $orcamento_id = $this->request->getQuery('oid');
+        $pdf = $this->request->getData("arquivo");
+
+        $upPdf = $this->upload($pdf, array('pdf'));
+
+        if (!isset($upPdf['error'])) {
+            $this->connection->update('orcamentos', ['pdf' => $upPdf], ["id" => $orcamento_id]);
+            echo json_encode($upPdf);
+            exit;
+        } else if ($upPdf['error'] == 0) {
+            echo json_encode(array("error" => "O arquivo não foi recebido"));
+            exit;
+        } else if ($upPdf['error'] == 1) {
+            echo json_encode(array("error" => "O arquivo enviado não é um PDF"));
+            exit;
+        } else if ($upPdf['error'] == 2) {
+            echo json_encode(array("error" => "Erro ao Salvar o Arquivo"));
+            exit;
+        } else {
+            echo json_encode(array("error" => "Erro Desconhecido: ". $upPdf['error']));
+            exit;
+        }
+    }
+    public function excluir()
+    {
+        $error = false;
+        $this->autoRender = false;
+
+        $orcamento_id = $this->request->getQuery('oid');
+
+        try {
+            $this->connection->delete('orcamentos', array('id' => $orcamento_id));
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+
+        if ($error == false) {
+            if ($this->retorno == "json") {
+                echo json_encode("ok");
+                exit;
+            }
+            $this->setMessage('success', 'Orçamento Excluído', true);
+            $this->redireciona('orcamentos');
+        } else {
+            if ($this->retorno == "json") {
+                echo json_encode($error);
+                exit;
+            }
+        }
+    }
+
+    public function geraPDF()
+    {
+        $orc_id = $this->request->getData('orcamento_id');
+
+        $res = $this->connection->newQuery()
+            ->select("email.email as email, endereco.bairro as bairro, endereco.numero as numero, endereco.logradouro as logradouro, endereco.cep as cep, endereco.cidade as cidade,endereco.uf as estado, telefone.ddd as telefone_ddd, telefone.numero as telefone_num, orcamentos.dt_cadastro, orcamentos.ocorrencias, orcamentos.status, orcamentos.valor_total, orcamentos.id, orcamentos.dt_cadastro, portas, altura, largura, tpi_id, ocorrencias, status, valor_total, orcamentos.dt_atualizado, cliente.id as cli_id, cliente.nome as cli_nome, cliente.sobrenome as cli_snome, cliente.tipo as cli_tipo, cliente.dt_cadastro as cli_cadastro, serralheiro.id as se_id, serralheiro.nome as se_nome, serralheiro.sobrenome as se_snome, serralheiro.tipo as se_tipo, serralheiro.dt_cadastro as se_cadastro")
+            ->from('orcamentos')
+            ->join(
+                [
+                    'table' => 'orcamento_portao',
+                    'type' => 'LEFT',
+                    'conditions' => 'orcamento_portao.orcamento_id = orcamentos.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'orcamento_pessoas',
+                    'type' => 'LEFT',
+                    'conditions' => 'orcamento_pessoas.orcamento_id = orcamentos.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'pessoas as cliente',
+                    'type' => 'LEFT',
+                    'conditions' => 'cliente.id = orcamento_pessoas.cliente_id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'serralheiro_clientes',
+                    'type' => 'LEFT',
+                    'conditions' => 'serralheiro_clientes.cliente_id = cliente.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'pessoas as serralheiro',
+                    'type' => 'LEFT',
+                    'conditions' => 'serralheiro.id = orcamento_pessoas.serralheiro_id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'telefones as telefone',
+                    'type' => 'LEFT',
+                    'conditions' => 'telefone.pessoa_id = orcamento_pessoas.cliente_id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'enderecos as endereco',
+                    'type' => 'LEFT',
+                    'conditions' => 'endereco.pessoa_id = orcamento_pessoas.cliente_id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'emails as email',
+                    'type' => 'LEFT',
+                    'conditions' => 'email.pessoa_id = orcamento_pessoas.cliente_id'
+                ]
+            )
+            ->where("orcamentos.id = $orc_id")
+            ->execute()
+            ->fetchAll('assoc');
+
+        $prods = $this->connection->newQuery()
+            ->select('produtos.id, produtos.codigo, acrescimo, quantidade, tipo, produtos.nome, unidades_medida.nome as medida, motores.categoria_id, catmotores.imagem as mto_img, catmotores.nome as cat_nome, peso_m2, produtos.descricao, produtos.imagem, preco_unitario, perfis.id as prf_id, motores.id as mto_id, automatizadores.id as aut_id, pinturas.id as ptr_id')
+            ->from('orcamento_produto')
+            ->join(
+                [
+                    'table' => 'produtos',
+                    'type' => 'LEFT',
+                    'conditions' => 'produtos.id = produto_id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'unidades_medida',
+                    'type' => 'LEFT',
+                    'conditions' => 'produtos.unidade_medida_id = unidades_medida.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'perfis',
+                    'type' => 'LEFT',
+                    'conditions' => 'perfis.produto_id = produtos.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'pinturas',
+                    'type' => 'LEFT',
+                    'conditions' => 'pinturas.produto_id = produtos.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'motores',
+                    'type' => 'LEFT',
+                    'conditions' => 'motores.produto_id = produtos.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'catmotores',
+                    'type' => 'LEFT',
+                    'conditions' => 'motores.categoria_id = catmotores.id'
+                ]
+            )
+            ->join(
+                [
+                    'table' => 'automatizadores',
+                    'type' => 'LEFT',
+                    'conditions' => 'automatizadores.produto_id = produtos.id'
+                ]
+            )
+            ->where('orcamento_id = ' . $orc_id)
+            ->execute()
+            ->fetchAll('assoc');
+
+        echo json_encode(array('orcamento_data' => $res[0], 'produtos' => $prods));
+        exit;
+    }
+}

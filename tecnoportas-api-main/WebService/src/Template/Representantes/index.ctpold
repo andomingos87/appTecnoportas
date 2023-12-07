@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <?= $title ?>
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                </span>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <table class="display table table-bordered table-striped" id="tabRepresentantes">
+                        <thead>
+                            <tr>
+                                <td>Nome</td>
+                                <td>Telefone</td>
+                                <td class="hidden-phone">E-mail</td>
+                                <td class="hidden-phone">Cidade</td>
+                                <td class="hidden-phone">UF</td>
+                                <td><a href="<?= $this->Layout->getLink('representantes/novo') ?>">+ Novo</a></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($representantes as $rep) : $nome = !empty($rep["razao_social"]) ? $rep["razao_social"] : ( !empty($rep["nome_fantasia"]) ? $rep["nome_fantasia"] : $rep["nome"] . " " . $rep["sobrenome"]); ?>
+                            <tr>
+                                <td><?= $nome ?></td>
+                                <td><?php if (!empty($rep["ddd"])) : ?><a href="tel:<?= $rep["ddd"] . $rep["telefone"] ?>"><?= "(" . $rep["ddd"] . ")". $rep["telefone"] ?></a><?php endif; ?></td>
+                                <td class="hidden-phone"><?php if (!empty($rep["email"])) : ?><a href="mailto:<?= $rep["email"] ?>"><?= $rep["email"] ?></a><?php endif; ?></td>
+                                <td class="hidden-phone"><?= $rep["cidade"] ?></td>
+                                <td class="hidden-phone"><?= $rep["uf"] ?></td>
+                                <td>
+                                    <a href="#" onclick="if (confirm('Remover o Ponto de venda <?= $nome ?>, ID: <?= $rep['sId']?>?')){ location.href='<?= $this->Layout->getLink('representantes/excluir?id='.$rep['sId']) ?>'; }">
+                                        <button class="btn btn-warning"><i class="fa fa-trash-o"></i></button>
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <script>
+                        $("#tabRepresentantes").dataTable(geraDynamicTab);
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

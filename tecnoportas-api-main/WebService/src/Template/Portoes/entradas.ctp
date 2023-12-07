@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Entradas
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                </span>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <table  class="display table table-bordered table-striped" id="dynamic-table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Código</th>
+                                <th>Imagem</th>
+                                <th class="hidden-phone">Nome</th>
+                                <th>Valor (R$)</th>
+                                <th><a href="<?= $this->Layout->getLink('portoes/addEntrada') ?>">+ Novo</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (count($entradas)) : foreach ($entradas as $entrada) : ?>
+                            <tr>
+                                <td><?= $entrada['id'] ?></td>
+                                <td><?= $entrada['codigo'] ?></td>
+                                <td><img src='<?= $this->Layout->getLink('files?name='.($entrada['imagem'] ? : 'sem-img.jpg')) ?>' alt='<?= $entrada['nome'] ?>'/></td>
+                                <td class="hidden-phone"><?= $entrada['nome'] ?></td>
+                                <td><?= $entrada['valor_unitario'] ?></td>
+                                <td><a href="<?= $this->Layout->getLink('portoes/editEntrada?eid='.$entrada['id']) ?>"><button class="btn btn-info"><i class="fa fa-pencil"></i></button></a> <a href="#" onclick="if (confirm('Excluir Entrada <?= $entrada['nome'] ?>?')){ location.href='<?= $this->Layout->getLink('portoes/delEntrada?eid='.$entrada['id']) ?>'; }"><button class="btn btn-warning"><i class="fa fa-trash-o"></i></button></a></td>
+                            </tr>
+                            <?php endforeach; endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

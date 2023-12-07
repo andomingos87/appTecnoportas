@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Fita PVC
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                </span>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <table  class="display table table-bordered table-striped" id="dynamic-table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Código</th>
+                                <th>Imagem</th>
+                                <th class="hidden-phone">Nome</th>
+                                <th>Valor (R$)</th>
+                                <th><a href="<?= $this->Layout->getLink('portoes/addFitaPvc') ?>">+ Nova</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (count($fitas)) : foreach ($fitas as $fita) : ?>
+                            <tr>
+                                <td><?= $fita['id'] ?></td>
+                                <td><?= $fita['codigo'] ?></td>
+                                <td><img src='<?= $this->Layout->getLink('files?name='.$fita['imagem']) ?>' alt='<?= $fita['nome'] ?>'/></td>
+                                <td><?= $fita['nome'] ?></td>
+                                <td><?= $fita['valor_unitario'] ?></td>
+                                <td><a href="<?= $this->Layout->getLink('portoes/editFitaPvc?fid='.$fita['id']) ?>"><button class="btn btn-info"><i class="fa fa-pencil"></i></button></a> <a href="#" onclick="if (confirm('Excluir Pintura <?= $fita['nome'] ?>?')){ location.href='<?= $this->Layout->getLink('portoes/delFitaPvc?fid='.$fita['id']) ?>'; }"><button class="btn btn-warning"><i class="fa fa-trash-o"></i></button></a></td>
+                            </tr>
+                            <?php endforeach; endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

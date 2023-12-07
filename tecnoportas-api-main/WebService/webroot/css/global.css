@@ -1,0 +1,74 @@
+/*Funções*/
+.invisivel{
+    display: none;
+}
+@media (max-width: 750px) {
+    .hidden-phone{
+        display: none;
+    }
+}
+form .checkbox-inline, form .radio-inline{
+    display: inline-block;
+    text-align: center;
+    padding-bottom: 16px;
+    position: relative;
+}
+form .checkbox-inline .icone, form .radio-inline .icone{
+    display: inline-block;
+    max-height: 80px;
+    max-width: 80px;
+}
+form .checkbox-inline input, form .radio-inline input{
+    margin-left: 10px !important;
+    margin-top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/*Alterações no tema*/
+.form-signin-heading > img{
+    max-width: 60%;
+}
+.left-side .logo{
+    margin-left: 0px;
+}
+.left-side .logo a img, .left-side .logo-icon a img{
+    max-width: 100%;
+    max-height: 50px;
+}
+.notification-menu .btn.dropdown-toggle img{
+    height: 26px;
+    width: 26px;
+}
+.table td img{
+    max-width: 70px;
+    max-height: 70px;
+}
+.modal-dialog .modal-header{
+    background-color: #424f63;
+}
+.form-group .error-feedback{
+    display: none;
+}
+.form-group.has-error .error-feedback{
+    display: block;
+}
+.thumbnail{
+    height: auto !important;
+}
+.thumbnail img{
+    max-width: 100%;
+    max-height: 100%;
+}
+/*Eventos*/
+
+.option {
+    margin-top: 3px;
+    text-align: center;
+    border-bottom: solid 1px lightgray;
+}
+
+/*Generic*/
+
+.mb-1{
+    margin-bottom: 5px;
+}
